@@ -39,3 +39,8 @@
 
 # debug information files
 *.dwo
+
+#file paths
+bin/
+bin-int/
+.vs/
