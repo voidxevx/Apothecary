@@ -17,7 +17,8 @@ namespace apothec::lithium::opengl
 
 	static bool s_GLFWInitialized = false;
 
-	static void GLFW_ErrorCallback(int count, const char* desc)
+	static void 
+	GLFW_ErrorCallback(int count, const char* desc)
 	{
 		std::cout << "[" << count << "] " << desc << "\n";
 	}
@@ -64,7 +65,8 @@ namespace apothec::lithium::opengl
 		glfwDestroyWindow(m_Window);
 	}
 
-	void Window_OpenGL::OnUpdate()
+	void 
+	Window_OpenGL::OnUpdate()
 	{
 		//glClear(GL_COLOR_BUFFER_BIT);
 

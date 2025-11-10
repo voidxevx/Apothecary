@@ -41,6 +41,33 @@
     <ClInclude Include="src\Apothecary\Lithium\Platform_APIs\OpenGL\OpenGL_Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon\DataTypes\ArgonSIMD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon\DataTypes\Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon\DataTypes\Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\ComponentPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\ECS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\SystemInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Apothecary\Lithium\Lithium.txt" />

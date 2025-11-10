@@ -25,7 +25,8 @@ namespace apothec
 		this->Destroy();
 	}
 
-	void Application::Run()
+	void 
+	Application::Run()
 	{
 		while (m_Running)
 		{
