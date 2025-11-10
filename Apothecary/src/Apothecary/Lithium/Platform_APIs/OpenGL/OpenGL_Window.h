@@ -3,6 +3,7 @@
 #include "../../Window.h"
 #include "Apothecary/Core.h"
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace apothec::lithium::opengl

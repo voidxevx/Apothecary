@@ -49,7 +49,7 @@ namespace apothec::lithium::opengl
 
 		m_Window = glfwCreateWindow(m_Data.props.Width, m_Data.props.Height, m_Data.props.Name.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
-		//int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		glfwSwapInterval(1);
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 
@@ -68,9 +68,10 @@ namespace apothec::lithium::opengl
 	void 
 	Window_OpenGL::OnUpdate()
 	{
-		//glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(0.35, 0.15, 0.44, 1.0); 
 
-		// render
+		// render calls
 
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
