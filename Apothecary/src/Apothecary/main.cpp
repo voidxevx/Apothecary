@@ -7,6 +7,8 @@ main()
 {
 	apothec::Application* app = new apothec::Application{};
 
+	app->Run();
+
 	delete app;
 	return 0;
 }
