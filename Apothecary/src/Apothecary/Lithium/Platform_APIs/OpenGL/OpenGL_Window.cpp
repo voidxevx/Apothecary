@@ -44,8 +44,8 @@ namespace apothec::lithium::opengl
 		/*GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-		m_Data.Width = mode->width;
-		m_Data.Height = mode->height;*/
+		m_Data.props.Width = mode->width;
+		m_Data.props.Height = mode->height;*/
 
 		m_Window = glfwCreateWindow(m_Data.props.Width, m_Data.props.Height, m_Data.props.Name.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);

@@ -19,6 +19,7 @@ namespace apothec
 		// Defined in Tonic
 		void TONIC_LINK Init();
 		void TONIC_LINK Destroy();
+		void TONIC_LINK Update(double deltaTime);
 
 		static inline Application& Get() { return *s_Instance; }
 		inline lithium::Window& GetWindow() { return *m_Window; }
@@ -29,6 +30,9 @@ namespace apothec
 		bool m_Running = true;
 
 		static Application* s_Instance;
+
+		double m_LastTime = 0;
+		double m_DeltaTime = 0;
 	};
 
 }

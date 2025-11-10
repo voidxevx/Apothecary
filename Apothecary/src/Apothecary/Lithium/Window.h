@@ -28,6 +28,8 @@ namespace apothec::lithium
 		virtual inline size_t GetWidth() const = 0;
 		virtual inline size_t GetHeight() const = 0;
 
+		virtual inline double GetTime() const = 0;
+
 		// virtual void SetEventCallback(const EventCallback &callback) = 0;
 
 		static Window* CreateWindow(const winProps& props = winProps());
