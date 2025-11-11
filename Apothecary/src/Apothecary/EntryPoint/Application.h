@@ -2,6 +2,9 @@
 #include "../Core.h"
 
 #include "../Lithium/Window.h"
+#include "../Lithium/Events/LithiumEvents.h"
+
+#include <Xenon.h>
 
 #include <memory>
 
@@ -16,6 +19,8 @@ namespace apothec
 
 		void Run();
 
+		void OnEvent(lithium::events::Event& event);
+
 		// Defined in Tonic
 		void TONIC_LINK Init();
 		void TONIC_LINK Destroy();
@@ -23,8 +28,10 @@ namespace apothec
 
 		static inline Application& Get() { return *s_Instance; }
 		inline lithium::Window& GetWindow() { return *m_Window; }
+		inline xenon::registry& GetRegistry() { return *m_EntityRegistry; }
 
 	private:
+		bool OnWindowClose(lithium::events::WindowCloseEvent& event);
 
 		std::unique_ptr<lithium::Window> m_Window;
 		bool m_Running = true;
@@ -33,6 +40,8 @@ namespace apothec
 
 		double m_LastTime = 0;
 		double m_DeltaTime = 0;
+
+		xenon::registry* m_EntityRegistry;
 	};
 
 }

@@ -53,9 +53,95 @@ namespace apothec::lithium::opengl
 		glfwSwapInterval(1);
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 
-		// TODO: event callbacks
+#define EVENT_GET_DATAPOINTER WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window)
 
+		/* ------ glfw Event Callbacks ------*/
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) 
+		{
+			EVENT_GET_DATAPOINTER;
 
+			data.props.Width = width;
+			data.props.Height = height;
+
+			lithium::events::WindowResizeEvent event(width, height);
+			data.callback(event);
+		});
+
+		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) 
+		{
+			EVENT_GET_DATAPOINTER;
+
+			lithium::events::WindowCloseEvent event{};
+			data.callback(event);
+		});
+
+		//key event -----
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) 
+		{
+			EVENT_GET_DATAPOINTER;
+
+			switch (action)
+			{
+			case GLFW_PRESS:
+			{
+				lithium::events::KeyPressedEvent eventPressed(key, 0);
+				data.callback(eventPressed);
+				break;
+			}
+			case GLFW_RELEASE:
+			{
+				lithium::events::KeyReleasedEvent eventReleased(key);
+				data.callback(eventReleased);
+				break;
+			}
+			case GLFW_REPEAT:
+			{
+				lithium::events::KeyPressedEvent eventPressed(key, 1);
+				data.callback(eventPressed);
+				break;
+			}
+			}
+		});
+		// mouse event -----
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int modes) 
+		{
+			EVENT_GET_DATAPOINTER;
+
+			switch (action)
+			{
+			case GLFW_PRESS:
+			{
+				lithium::events::MouseButtonPressedEvent eventPressed(button);
+				data.callback(eventPressed);
+				break;
+			}
+			case GLFW_RELEASE:
+			{
+				lithium::events::MouseButtonReleasedEvent eventReleased(button);
+				data.callback(eventReleased);
+				break;
+			}
+			}
+		});
+
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos) 
+		{
+			EVENT_GET_DATAPOINTER;
+
+			lithium::events::MouseMoveEvent event(xPos, yPos);
+			data.callback(event);
+		});
+
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOff, double yOff) 
+		{
+			EVENT_GET_DATAPOINTER;
+
+			lithium::events::MouseScrolledEvent event(xOff, yOff);
+			data.callback(event);
+		});
+
+#undef EVENT_GET_DATAPOINTER
+		/* ------ -------------------- ------*/
 
 
 	}
@@ -69,7 +155,7 @@ namespace apothec::lithium::opengl
 	Window_OpenGL::OnUpdate()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(0.35, 0.15, 0.44, 1.0); 
+		glClearColor(0.35, 0.15, 0.44, 1.0);
 
 		// render calls
 

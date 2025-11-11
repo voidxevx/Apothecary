@@ -10,7 +10,7 @@ namespace apothec
 		// application construction
 		s_Instance = this;
 		m_Window = std::unique_ptr<lithium::Window>(lithium::Window::CreateWindow());
-		// bind events
+		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
 		// tonic side construction
 		this->Init();
@@ -40,6 +40,23 @@ namespace apothec
 			// update ecs systems
 			m_Window->OnUpdate();
 		}
+	}
+
+	bool
+	Application::OnWindowClose(lithium::events::WindowCloseEvent& event)
+	{
+		m_Running = false;
+		return true;
+	}
+
+	void
+	Application::OnEvent(lithium::events::Event& event)
+	{
+		lithium::events::EventDispatcher disp(event);
+		disp.Dispatch<lithium::events::WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+
+		// layer events
+
 	}
 
 }

@@ -68,6 +68,24 @@
     <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\Events\ApplicationEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\Events\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\Events\KeyEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\Events\MouseEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\Events\WindowEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\Events\LithiumEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Apothecary\Lithium\Lithium.txt" />

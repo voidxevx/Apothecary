@@ -1,6 +1,9 @@
 #pragma once
 
+#include "Events/Event.h"
+
 #include <string>
+#include <functional>
 
 namespace apothec::lithium
 {
@@ -21,6 +24,7 @@ namespace apothec::lithium
 	class Window
 	{
 	public:
+		using EventCallback = std::function<void(events::Event&)>;
 		virtual ~Window() {}
 
 		virtual void OnUpdate() = 0;
@@ -30,7 +34,7 @@ namespace apothec::lithium
 
 		virtual inline double GetTime() const = 0;
 
-		// virtual void SetEventCallback(const EventCallback &callback) = 0;
+		 virtual void SetEventCallback(const EventCallback &callback) = 0;
 
 		static Window* CreateWindow(const winProps& props = winProps());
 	};

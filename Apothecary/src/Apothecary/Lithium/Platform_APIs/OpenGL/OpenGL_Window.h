@@ -22,7 +22,7 @@ namespace apothec::lithium::opengl
 
 		virtual inline double GetTime() const override final { return glfwGetTime(); }
 
-		// virtual inline void SetEventCallback(const EventCallback &callback) override final { m_Data.callback = callback; }
+		virtual inline void SetEventCallback(const EventCallback &callback) override final { m_Data.callback = callback; }
 
 	private:
 
@@ -31,8 +31,7 @@ namespace apothec::lithium::opengl
 		struct WindowData
 		{
 			winProps props;
-
-			// EventCallback callback
+			EventCallback callback;
 		}
 		m_Data;
 
