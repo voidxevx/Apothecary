@@ -30,6 +30,12 @@ namespace apothec
 	{
 		while (m_Running)
 		{
+			double time = m_Window->GetTime();
+			m_DeltaTime = time - m_LastTime;
+			m_LastTime = time;
+
+			this->Update(m_DeltaTime);
+
 			// iterate over layers
 			// update ecs systems
 			m_Window->OnUpdate();

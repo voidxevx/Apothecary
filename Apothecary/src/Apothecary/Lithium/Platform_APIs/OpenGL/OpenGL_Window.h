@@ -3,6 +3,7 @@
 #include "../../Window.h"
 #include "Apothecary/Core.h"
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace apothec::lithium::opengl
@@ -18,6 +19,8 @@ namespace apothec::lithium::opengl
 
 		virtual inline size_t GetWidth() const override final { return m_Data.props.Width; }
 		virtual inline size_t GetHeight() const override final { return m_Data.props.Height; }
+
+		virtual inline double GetTime() const override final { return glfwGetTime(); }
 
 		// virtual inline void SetEventCallback(const EventCallback &callback) override final { m_Data.callback = callback; }
 

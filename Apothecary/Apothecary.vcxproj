@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -68,7 +68,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLFW\include;$(SolutionDir)Apothecary\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)glad/include;$(SolutionDir)GLFW\include;$(SolutionDir)Apothecary\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +127,9 @@
     <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\glad\glad.vcxproj">
+      <Project>{4b14e2f7-51c3-4cdb-a75f-547173cb50d7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GLFW\GLFW.vcxproj">
       <Project>{c63a5ab3-2f48-4e2a-b8ae-55c0cdcc2653}</Project>
     </ProjectReference>

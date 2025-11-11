@@ -14,3 +14,9 @@ apothec::Application::Destroy()
 {
 	std::cout << "Goodbye, Tonic" << std::endl;
 }
+
+void TONIC_API
+apothec::Application::Update(double deltaTime)
+{
+
+}
