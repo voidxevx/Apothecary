@@ -71,5 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Apothecary\Lithium\Lithium.txt" />
+    <Text Include="src\Apothecary\Apothecary.txt" />
   </ItemGroup>
 </Project>
