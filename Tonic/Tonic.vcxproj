@@ -68,7 +68,7 @@
       <PreprocessorDefinitions>TONIC_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Apothecary/src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)EntryPoint/src;$(SolutionDir)Apothecary/src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,6 +113,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\entry.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EntryPoint\EntryPoint.vcxproj">
+      <Project>{6faaa1ac-1205-4e54-9f4f-83b99bd827e4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

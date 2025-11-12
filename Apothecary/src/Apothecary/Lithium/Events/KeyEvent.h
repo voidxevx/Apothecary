@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace apothec::lithium::events
 {
 
@@ -31,13 +29,6 @@ namespace apothec::lithium::events
 
 		inline unsigned int GetRepeateCount() const { return m_RepeatCount; }
 
-		virtual std::string ToString() const override
-		{
-			std::stringstream ss{};
-			ss << "Key Pressed Event: (" << m_KeyCode << ") (" << m_RepeatCount << ")" << std::endl;
-			return ss.str();
-		}
-
 		EVENT_CLASS_TYPE(KeyPressed)
 
 	private:
@@ -50,13 +41,6 @@ namespace apothec::lithium::events
 		KeyReleasedEvent(int keyCode)
 			: KeyEvent(keyCode)
 		{}
-
-		virtual std::string ToString() const override
-		{
-			std::stringstream ss{};
-			ss << " Key Released Event: (" << m_KeyCode << ")" << std::endl;
-			return ss.str();
-		}
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	};

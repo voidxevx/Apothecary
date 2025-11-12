@@ -34,9 +34,10 @@ namespace apothec
 			m_DeltaTime = time - m_LastTime;
 			m_LastTime = time;
 
+			// tonic side update
 			this->Update(m_DeltaTime);
-
-			// iterate over layers
+			m_LayerStack.PropogateUpdate();
+			
 			// update ecs systems
 			m_Window->OnUpdate();
 		}
@@ -54,9 +55,7 @@ namespace apothec
 	{
 		lithium::events::EventDispatcher disp(event);
 		disp.Dispatch<lithium::events::WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
-
-		// layer events
-
+		m_LayerStack.PropogateEvent(event);
 	}
 
 }

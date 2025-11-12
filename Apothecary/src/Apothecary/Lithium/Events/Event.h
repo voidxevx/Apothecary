@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <functional>
 
 namespace apothec::lithium::events
@@ -40,8 +39,6 @@ namespace apothec::lithium::events
 		virtual EventType GetEventType() const = 0;
 		virtual int GetCategoryFlags() const = 0;
 
-		virtual std::string ToString() const { return GetName(); }
-
 		inline bool IsInCategory(EventCategory category) const
 		{
 			return GetCategoryFlags() & category;
@@ -72,12 +69,6 @@ namespace apothec::lithium::events
 	private:
 		Event& m_Event;
 	};
-
-	inline std::ostream& operator<<(std::ostream& stream, const Event& event)
-	{
-		stream << event.ToString();
-		return stream;
-	}
 
 
 }

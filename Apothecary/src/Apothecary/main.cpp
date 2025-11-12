@@ -2,7 +2,7 @@
 
 #include "EntryPoint/Application.h"
 
-static const char* ApothicTitle = 
+static const char* ApothecTitle = 
 R"(
                                   _-_
                                  (   ;
@@ -29,7 +29,7 @@ R"(
 int
 main()
 {
-	std::cout << ApothicTitle << "\n";
+	std::cout << "\033[38;2;158;96;219m" << ApothecTitle << "\033[0m\n";
 
 	apothec::Application* app = new apothec::Application{};
 

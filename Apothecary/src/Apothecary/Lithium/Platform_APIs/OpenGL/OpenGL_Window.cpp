@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Apothecary/EntryPoint/Application.h"
+#include "EntryPoint/Application.h"
 
 namespace apothec::lithium
 {

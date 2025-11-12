@@ -1,8 +1,6 @@
 #pragma once
 #include "Event.h"
 
-#include <sstream>
-
 namespace apothec::lithium::events
 {
 
@@ -11,13 +9,6 @@ namespace apothec::lithium::events
 	public:
 		WindowCloseEvent() {}
 		~WindowCloseEvent() {}
-
-		virtual std::string ToString() const override
-		{
-			std::stringstream ss{};
-			ss << "Window Closed" << std::endl;
-			return ss.str();
-		}
 
 		EVENT_CLASS_TYPE(WindowClose)
 		EVENT_CLASS_CATEGORY(EventCategory_Application)
@@ -32,13 +23,6 @@ namespace apothec::lithium::events
 		{ }
 		~WindowResizeEvent()
 		{ }
-
-		virtual std::string ToString()const override
-		{
-			std::stringstream ss{};
-			ss << "Window Resized - width: " << m_Width << " height: " << m_Height << std::endl;
-			return ss.str();
-		}
 
 		const unsigned int GetWidth() const { return m_Width; }
 		const unsigned int GetHeight() const { return m_Height; }

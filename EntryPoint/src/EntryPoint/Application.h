@@ -1,10 +1,11 @@
 #pragma once
-#include "../Core.h"
+#include "Apothecary/Core.h"
 
-#include "../Lithium/Window.h"
-#include "../Lithium/Events/LithiumEvents.h"
+#include "Apothecary/Lithium/Window.h"
+#include "Apothecary/Lithium/Events/LithiumEvents.h"
+#include "Layers/LayerStack.h"
 
-#include <Xenon.h>
+#include <Apothecary/Tools/Xenon/src/Xenon.h>
 
 #include <memory>
 
@@ -21,6 +22,19 @@ namespace apothec
 
 		void OnEvent(lithium::events::Event& event);
 
+		inline void PushLayer(EventLayer* layer)
+		{
+			m_LayerStack.PushLayer(layer);
+		}
+		inline void PushOverlay(EventLayer* layer)
+		{
+			m_LayerStack.PushOverlay(layer);
+		}
+		inline void RemoveLayer(EventLayer* layer)
+		{
+			m_LayerStack.RemoveLayer(layer);
+		}
+
 		// Defined in Tonic
 		void TONIC_LINK Init();
 		void TONIC_LINK Destroy();
@@ -34,6 +48,7 @@ namespace apothec
 		bool OnWindowClose(lithium::events::WindowCloseEvent& event);
 
 		std::unique_ptr<lithium::Window> m_Window;
+		LayerStack m_LayerStack;
 		bool m_Running = true;
 
 		static Application* s_Instance;
