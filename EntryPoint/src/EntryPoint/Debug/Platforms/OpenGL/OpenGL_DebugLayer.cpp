@@ -80,12 +80,8 @@ namespace apothec::debug
 
 		ImGui::End();
 
-		ImGui::Begin("main");
-
-		static float color[4] = {0, 0, 0, 0};
-		ImGui::ColorPicker4("color", color);
-
-		ImGui::End();
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
