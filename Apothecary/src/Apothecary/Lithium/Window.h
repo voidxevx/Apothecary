@@ -27,14 +27,17 @@ namespace apothec::lithium
 		using EventCallback = std::function<void(events::Event&)>;
 		virtual ~Window() {}
 
-		virtual void OnUpdate() = 0;
+		virtual void PreRender() = 0;
+		virtual void PostRender() = 0;
 
 		virtual inline size_t GetWidth() const = 0;
 		virtual inline size_t GetHeight() const = 0;
 
 		virtual inline double GetTime() const = 0;
 
-		 virtual void SetEventCallback(const EventCallback &callback) = 0;
+		virtual void* const GetRawWindow() const = 0;
+
+		virtual void SetEventCallback(const EventCallback &callback) = 0;
 
 		static Window* CreateWindow(const winProps& props = winProps());
 	};

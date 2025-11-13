@@ -15,6 +15,7 @@ namespace apothec
 	void
 	LayerStack::PushLayer(EventLayer* layer)
 	{
+		layer->OnAttach();
 		LayerContainer* cont = new LayerContainer(layer);
 		if (!m_TopLayer && !m_InsertLayer) // no layers created
 		{
@@ -42,6 +43,7 @@ namespace apothec
 	void
 	LayerStack::PushOverlay(EventLayer* overlay)
 	{
+		overlay->OnAttach();
 		LayerContainer* cont = new LayerContainer(overlay);
 		if (!m_TopLayer && !m_InsertLayer) // no layers
 		{
@@ -59,20 +61,23 @@ namespace apothec
 	void 
 	LayerStack::RemoveLayer(EventLayer* layer)
 	{
+		if (layer)
+			layer->OnDetach();
 		if (layer == m_TopLayer->thisLayer) // only one layer
 		{
 			delete layer;
 			m_TopLayer = nullptr;
+			m_InsertLayer = nullptr;
 		}
 		else if(m_TopLayer->TryRemoveLayer(layer))
 			--m_TotalLayers;
 	}
 
 	void 
-	LayerStack::PropogateUpdate()
+	LayerStack::PropogateUpdate(double deltaTime)
 	{
 		if (m_TopLayer)
-			m_TopLayer->UpdateLayer();
+			m_TopLayer->UpdateLayer(deltaTime);
 	}
 
 	void
@@ -112,11 +117,11 @@ namespace apothec
 	}
 
 	void
-	LayerContainer::UpdateLayer()
+	LayerContainer::UpdateLayer(double deltaTime)
 	{
-		thisLayer->OnUpdate();
+		thisLayer->OnUpdate(deltaTime);
 		if (nextLayer)
-			nextLayer->UpdateLayer();
+			nextLayer->UpdateLayer(deltaTime);
 	}
 
 	void 

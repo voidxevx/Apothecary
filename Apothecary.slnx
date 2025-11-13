@@ -17,6 +17,9 @@
   <Project Path="GLFW/GLFW.vcxproj" Id="c63a5ab3-2f48-4e2a-b8ae-55c0cdcc2653">
     <BuildType Solution="dist|*" Project="Release" />
   </Project>
+  <Project Path="ImGui/ImGui.vcxproj" Id="72a53ed4-c69b-488e-a97b-7acae9648f1c">
+    <BuildType Solution="dist|*" Project="Release" />
+  </Project>
   <Project Path="Tonic/Tonic.vcxproj" Id="c1cd9de1-e156-43f4-8217-150d3ed64abf">
     <BuildType Solution="dist|*" Project="Debug" />
   </Project>

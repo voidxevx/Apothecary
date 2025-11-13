@@ -15,10 +15,13 @@ namespace apothec::lithium::opengl
 		Window_OpenGL(const winProps& props);
 		virtual ~Window_OpenGL();
 
-		virtual void OnUpdate() override final;
+		virtual void PreRender() override final;
+		virtual void PostRender() override final;
 
 		virtual inline size_t GetWidth() const override final { return m_Data.props.Width; }
 		virtual inline size_t GetHeight() const override final { return m_Data.props.Height; }
+
+		virtual void* const GetRawWindow() const override final { return m_Window; }
 
 		virtual inline double GetTime() const override final { return glfwGetTime(); }
 

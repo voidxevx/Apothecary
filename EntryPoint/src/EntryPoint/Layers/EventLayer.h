@@ -13,7 +13,7 @@ namespace apothec
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(double deltaTime) {}
 		virtual void OnEvent(lithium::events::Event& event) {}
 	};
 

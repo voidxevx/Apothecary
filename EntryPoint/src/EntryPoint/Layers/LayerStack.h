@@ -15,12 +15,10 @@ namespace apothec
 
 		LayerContainer(EventLayer* layer)
 			: thisLayer(layer)
-		{
-			layer->OnAttach();
-		}
+		{}
 
 		void PurgeLayers();
-		void UpdateLayer();
+		void UpdateLayer(double deltaTime);
 		void OnEvent(lithium::events::Event& event);
 
 		bool TryRemoveLayer(EventLayer* layer);
@@ -32,7 +30,7 @@ namespace apothec
 		LayerStack();
 		~LayerStack();
 
-		void PropogateUpdate();
+		void PropogateUpdate(double deltaTime);
 		void PropogateEvent(lithium::events::Event& event);
 
 		void PushLayer(EventLayer* layer);

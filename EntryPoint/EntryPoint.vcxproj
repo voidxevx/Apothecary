@@ -109,7 +109,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Apothecary\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Apothecary\src;$(SolutionDir)imgui\imgui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,11 +134,13 @@
   <ItemGroup>
     <ClInclude Include="src\Apothec.h" />
     <ClInclude Include="src\EntryPoint\Application.h" />
+    <ClInclude Include="src\EntryPoint\Debug\DebugLayer.h" />
     <ClInclude Include="src\EntryPoint\Layers\EventLayer.h" />
     <ClInclude Include="src\EntryPoint\Layers\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EntryPoint\Application.cpp" />
+    <ClCompile Include="src\EntryPoint\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp" />
     <ClCompile Include="src\EntryPoint\Layers\LayerStack.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

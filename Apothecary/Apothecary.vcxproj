@@ -68,7 +68,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)EntryPoint/src;$(SolutionDir)glad/include;$(SolutionDir)GLFW\include;$(SolutionDir)Apothecary\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)imgui\imgui;$(SolutionDir)EntryPoint/src;$(SolutionDir)glad/include;$(SolutionDir)GLFW\include;$(SolutionDir)Apothecary\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +142,9 @@
     </ProjectReference>
     <ProjectReference Include="..\GLFW\GLFW.vcxproj">
       <Project>{c63a5ab3-2f48-4e2a-b8ae-55c0cdcc2653}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ImGui\ImGui.vcxproj">
+      <Project>{72a53ed4-c69b-488e-a97b-7acae9648f1c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Tonic\Tonic.vcxproj">
       <Project>{c1cd9de1-e156-43f4-8217-150d3ed64abf}</Project>

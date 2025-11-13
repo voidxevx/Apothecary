@@ -143,7 +143,6 @@ namespace apothec::lithium::opengl
 #undef EVENT_GET_DATAPOINTER
 		/* ------ -------------------- ------*/
 
-
 	}
 
 	Window_OpenGL::~Window_OpenGL()
@@ -151,16 +150,17 @@ namespace apothec::lithium::opengl
 		glfwDestroyWindow(m_Window);
 	}
 
-	void 
-	Window_OpenGL::OnUpdate()
+	void
+	Window_OpenGL::PreRender()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0.35, 0.15, 0.44, 1.0);
+	}
 
-		// render calls
-
+	void
+	Window_OpenGL::PostRender()
+	{
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
 	}
-
 }

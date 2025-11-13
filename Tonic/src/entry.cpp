@@ -10,6 +10,7 @@ public:
 	{
 
 	}
+
 	virtual ~TestLayer()
 	{
 
@@ -33,7 +34,6 @@ apothec::Application::Init()
 	std::cout << "Hello, Tonic" << std::endl;
 	TestLayer* layer = new TestLayer();
 	PushLayer(layer);
-	RemoveLayer(layer);
 }
 
 void TONIC_API

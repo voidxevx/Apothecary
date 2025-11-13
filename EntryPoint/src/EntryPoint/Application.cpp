@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "Debug/DebugLayer.h"
+
 namespace apothec
 {
 
@@ -12,8 +14,12 @@ namespace apothec
 		m_Window = std::unique_ptr<lithium::Window>(lithium::Window::CreateWindow());
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
+		debug::DebugLayer* debug = new debug::DebugLayer();
+		PushLayer(debug);
+
 		// tonic side construction
 		this->Init();
+
 	}
 
 	Application::~Application()
@@ -36,10 +42,17 @@ namespace apothec
 
 			// tonic side update
 			this->Update(m_DeltaTime);
-			m_LayerStack.PropogateUpdate();
-			
+
+			m_Window->PreRender();
+
+			// render calls
+			m_LayerStack.PropogateUpdate(m_DeltaTime);
+
 			// update ecs systems
-			m_Window->OnUpdate();
+
+			m_Window->PostRender();
+
+			
 		}
 	}
 

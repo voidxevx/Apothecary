@@ -27,12 +27,18 @@
     <ClInclude Include="src\Apothec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\EntryPoint\Debug\DebugLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EntryPoint\Layers\LayerStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\EntryPoint\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntryPoint\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
