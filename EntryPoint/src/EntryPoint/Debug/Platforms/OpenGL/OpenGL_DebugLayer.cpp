@@ -6,6 +6,8 @@
 
 #include "../../../Application.h"
 
+#include <iostream>
+
 namespace apothec::debug
 {
 
@@ -28,10 +30,7 @@ namespace apothec::debug
 		ImGuiIO& io = ImGui::GetIO();
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; 
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;    
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;  
 
 		Application& app = Application::Get();
 		lithium::Window& win = app.GetWindow();
@@ -63,12 +62,33 @@ namespace apothec::debug
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		// Dockspace
+		ImGui::DockSpaceOverViewport();
+
+		// Test window
+		ImGui::Begin("Test");
+
+		if (ImGui::Button("close Apothecary"))
+		{
+			app.CloseApplication();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("press me"))
+		{
+			std::cout << "You pressed Me!\n";
+		}
+
+		ImGui::End();
+
+		ImGui::Begin("main");
+
+		static float color[4] = {0, 0, 0, 0};
+		ImGui::ColorPicker4("color", color);
+
+		ImGui::End();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		ImGui::UpdatePlatformWindows();
 	}
 
 	void

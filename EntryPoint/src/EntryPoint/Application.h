@@ -44,6 +44,8 @@ namespace apothec
 		inline lithium::Window& GetWindow() { return *m_Window; }
 		inline xenon::registry& GetRegistry() { return *m_EntityRegistry; }
 
+		void CloseApplication();
+
 	private:
 		bool OnWindowClose(lithium::events::WindowCloseEvent& event);
 

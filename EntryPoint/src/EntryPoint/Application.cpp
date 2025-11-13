@@ -51,9 +51,14 @@ namespace apothec
 			// update ecs systems
 
 			m_Window->PostRender();
-
-			
 		}
+	}
+
+	void 
+	Application::CloseApplication()
+	{
+		lithium::events::WindowCloseEvent event{};
+		this->OnWindowClose(event);
 	}
 
 	bool

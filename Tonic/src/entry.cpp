@@ -18,12 +18,10 @@ public:
 
 	virtual void OnAttach() override
 	{
-		std::cout << "Layer created\n";
 	}
 
 	virtual void OnDetach() override
 	{
-		std::cout << "Layer destroyed\n";
 	}
 
 };
@@ -31,7 +29,6 @@ public:
 void TONIC_API
 apothec::Application::Init()
 {
-	std::cout << "Hello, Tonic" << std::endl;
 	TestLayer* layer = new TestLayer();
 	PushLayer(layer);
 }
@@ -39,7 +36,7 @@ apothec::Application::Init()
 void TONIC_API
 apothec::Application::Destroy()
 {
-	std::cout << "Goodbye, Tonic" << std::endl;
+
 }
 
 void TONIC_API

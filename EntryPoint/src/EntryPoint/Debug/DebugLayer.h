@@ -15,8 +15,6 @@ namespace apothec::debug
 		virtual void OnDetach() override;
 		virtual void OnUpdate(double deltaTime) override;
 		virtual void OnEvent(lithium::events::Event& event) override;
-
-	private:
 	};
 
 }
