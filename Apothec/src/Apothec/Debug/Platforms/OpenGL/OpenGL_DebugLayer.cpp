@@ -10,17 +10,7 @@
 
 namespace apothec::debug
 {
-
-	DebugLayer::DebugLayer()
-	{
-
-	}
-
-	DebugLayer::~DebugLayer()
-	{
-
-	}
-
+	
 	void
 	DebugLayer::OnAttach()
 	{
@@ -30,7 +20,7 @@ namespace apothec::debug
 		ImGuiIO& io = ImGui::GetIO();
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;  
+		//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;  
 
 		Application& app = Application::Get();
 		lithium::Window& win = app.GetWindow();
@@ -55,7 +45,7 @@ namespace apothec::debug
 		Application& app = Application::Get();
 		lithium::Window& win = app.GetWindow();
 
-		io.DisplaySize = ImVec2(win.GetWidth(), win.GetHeight());
+		io.DisplaySize = ImVec2((float)win.GetWidth(), (float)win.GetHeight());
 		io.DeltaTime = (float)deltaTime;
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -63,32 +53,15 @@ namespace apothec::debug
 		ImGui::NewFrame();
 
 		// Dockspace
-		ImGui::DockSpaceOverViewport();
+		//ImGui::DockSpaceOverViewport();
 
-		// Test window
-		ImGui::Begin("Test");
-
-		if (ImGui::Button("close Apothecary"))
-		{
-			app.CloseApplication();
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("press me"))
-		{
-			std::cout << "You pressed Me!\n";
-		}
-
-		ImGui::End();
-
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		m_WidgetChain->WidgetUpdate(deltaTime);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void
-	DebugLayer::OnEvent(lithium::events::Event& event)
+	void DebugLayer::OnEvent(lithium::events::Event& event)
 	{
 
 	}

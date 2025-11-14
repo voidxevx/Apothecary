@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -68,7 +68,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)imgui\imgui;$(SolutionDir)EntryPoint/src;$(SolutionDir)glad/include;$(SolutionDir)GLFW\include;$(SolutionDir)Apothecary\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)imgui\imgui;$(SolutionDir)Apothec/src;$(SolutionDir)glad/include;$(SolutionDir)GLFW\include;$(SolutionDir)Apothecary\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,17 +123,11 @@
     <ClInclude Include="src\Apothecary\Lithium\Events\WindowEvent.h" />
     <ClInclude Include="src\Apothecary\Lithium\Platform_APIs\OpenGL\OpenGL_Window.h" />
     <ClInclude Include="src\Apothecary\Lithium\Window.h" />
-    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon.h" />
-    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon\DataTypes\ArgonSIMD.h" />
-    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon\DataTypes\Matrix.h" />
-    <ClInclude Include="src\Apothecary\Tools\Argon\src\Argon\DataTypes\Vector.h" />
-    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon.h" />
-    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\ComponentPool.h" />
-    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\ECS.h" />
-    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\SystemInterface.h" />
-    <ClInclude Include="src\Apothecary\Tools\Xenon\src\Xenon\Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Apothec\Apothec.vcxproj">
+      <Project>{6faaa1ac-1205-4e54-9f4f-83b99bd827e4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\EntryPoint\EntryPoint.vcxproj">
       <Project>{6faaa1ac-1205-4e54-9f4f-83b99bd827e4}</Project>
     </ProjectReference>
@@ -153,9 +147,6 @@
   <ItemGroup>
     <Text Include="src\Apothecary\Apothecary.txt" />
     <Text Include="src\Apothecary\Lithium\Lithium.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="imgui.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

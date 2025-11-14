@@ -153,7 +153,7 @@ namespace argon
             #ifdef ARGON_SIMD_ENABLED
             vec_normalize_simd(*this, len);
             #else
-            for(size_t i{}l i < _l; ++i)
+            for(size_t i{}; i < _l; ++i)
                 items[i] /= len;
             #endif
         }

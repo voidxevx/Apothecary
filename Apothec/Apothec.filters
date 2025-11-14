@@ -15,30 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EntryPoint\Layers\EventLayer.h">
+    <ClInclude Include="src\Apothec\Layers\EventLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EntryPoint\Layers\LayerStack.h">
+    <ClInclude Include="src\Apothec\Layers\LayerStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EntryPoint\Application.h">
+    <ClInclude Include="src\Apothec\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Apothec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EntryPoint\Debug\DebugLayer.h">
+    <ClInclude Include="src\Apothec\Debug\DebugLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothec\Debug\DebugWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothec\Debug\Widgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\EntryPoint\Layers\LayerStack.cpp">
+    <ClCompile Include="src\Apothec\Layers\LayerStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\EntryPoint\Application.cpp">
+    <ClCompile Include="src\Apothec\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\EntryPoint\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp">
+    <ClCompile Include="src\Apothec\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Apothec\Debug\DebugLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Apothec\Debug\Widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Apothec\Debug\DebugWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

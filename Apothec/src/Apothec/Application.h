@@ -4,8 +4,9 @@
 #include "Apothecary/Lithium/Window.h"
 #include "Apothecary/Lithium/Events/LithiumEvents.h"
 #include "Layers/LayerStack.h"
+#include "Debug/DebugLayer.h"
 
-#include <Apothecary/Tools/Xenon/src/Xenon.h>
+#include "Tools/Xenon/src/Xenon.h"
 
 #include <memory>
 

@@ -19,8 +19,8 @@
 #endif
 
 // DEBUG ONLY
-#define ARGON_SIMD_ENABLED
-#define ARGON_SIMD_SIZE 256
+//#define ARGON_SIMD_ENABLED
+//#define ARGON_SIMD_SIZE 256
 // #define ARGON_SIMD_SIZE 128
 
 #ifdef ARGON_SIMD_ENABLED

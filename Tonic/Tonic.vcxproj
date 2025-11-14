@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -68,7 +68,7 @@
       <PreprocessorDefinitions>TONIC_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)EntryPoint/src;$(SolutionDir)Apothecary/src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Xenon\src;$(SolutionDir)Apothecary\src\Apothecary\Tools\Argon\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Apothec/src;$(SolutionDir)Apothecary/src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,6 +115,9 @@
     <ClCompile Include="src\entry.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Apothec\Apothec.vcxproj">
+      <Project>{6faaa1ac-1205-4e54-9f4f-83b99bd827e4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\EntryPoint\EntryPoint.vcxproj">
       <Project>{6faaa1ac-1205-4e54-9f4f-83b99bd827e4}</Project>
     </ProjectReference>

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "EntryPoint/Application.h"
+#include "Apothec/Application.h"
 
 static const char* ApothecTitle = 
 R"(

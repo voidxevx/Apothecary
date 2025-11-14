@@ -24,6 +24,7 @@
     <ProjectGuid>{6faaa1ac-1205-4e54-9f4f-83b99bd827e4}</ProjectGuid>
     <RootNamespace>EntryPoint</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Apothec</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -133,15 +134,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Apothec.h" />
-    <ClInclude Include="src\EntryPoint\Application.h" />
-    <ClInclude Include="src\EntryPoint\Debug\DebugLayer.h" />
-    <ClInclude Include="src\EntryPoint\Layers\EventLayer.h" />
-    <ClInclude Include="src\EntryPoint\Layers\LayerStack.h" />
+    <ClInclude Include="src\Apothec\Application.h" />
+    <ClInclude Include="src\Apothec\Debug\DebugLayer.h" />
+    <ClInclude Include="src\Apothec\Debug\DebugWidget.h" />
+    <ClInclude Include="src\Apothec\Debug\Widgets.h" />
+    <ClInclude Include="src\Apothec\Layers\EventLayer.h" />
+    <ClInclude Include="src\Apothec\Layers\LayerStack.h" />
+    <ClInclude Include="src\Apothec\Tools\Argon\src\Argon.h" />
+    <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\ArgonSIMD.h" />
+    <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\Matrix.h" />
+    <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\Vector.h" />
+    <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon.h" />
+    <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\ComponentPool.h" />
+    <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\ECS.h" />
+    <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\SystemInterface.h" />
+    <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\Types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\EntryPoint\Application.cpp" />
-    <ClCompile Include="src\EntryPoint\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp" />
-    <ClCompile Include="src\EntryPoint\Layers\LayerStack.cpp" />
+    <ClCompile Include="src\Apothec\Application.cpp" />
+    <ClCompile Include="src\Apothec\Debug\DebugLayer.cpp" />
+    <ClCompile Include="src\Apothec\Debug\DebugWidget.cpp" />
+    <ClCompile Include="src\Apothec\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp" />
+    <ClCompile Include="src\Apothec\Debug\Widgets.cpp" />
+    <ClCompile Include="src\Apothec\Layers\LayerStack.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

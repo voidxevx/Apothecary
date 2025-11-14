@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "EntryPoint/Application.h"
+#include "Apothec/Application.h"
 
 namespace apothec::lithium
 {
@@ -155,7 +155,6 @@ namespace apothec::lithium::opengl
 	Window_OpenGL::PreRender()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(0.35, 0.15, 0.44, 1.0);
 	}
 
 	void

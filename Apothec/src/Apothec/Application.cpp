@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include "Debug/DebugLayer.h"
+#include "debug/Widgets.h"
 
 namespace apothec
 {
@@ -14,8 +14,13 @@ namespace apothec
 		m_Window = std::unique_ptr<lithium::Window>(lithium::Window::CreateWindow());
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
-		debug::DebugLayer* debug = new debug::DebugLayer();
-		PushLayer(debug);
+		debug::DebugLayer::CreateDebugLayer();
+		PushLayer(debug::DebugLayer::Get());
+
+		debug::DebugLayer::Get()->AddWidget(new debug::widgets::AppManagerWidget());
+		static argon::vec2 vec = {0, 0};
+		debug::DebugLayer::Get()->AddWidget(new debug::widgets::Vec2HandleWidget(vec, "test"));
+
 
 		// tonic side construction
 		this->Init();
@@ -25,7 +30,6 @@ namespace apothec
 	Application::~Application()
 	{
 		// application deconstruction
-
 
 		// tonic side deconstruction
 		this->Destroy();
