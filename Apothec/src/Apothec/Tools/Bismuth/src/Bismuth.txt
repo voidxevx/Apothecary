@@ -1,0 +1,183 @@
+
+-- Bismuth ECSO language --
+
+--
+Keywords:
+
+	project - a project tag used to prevent duplicate headers.
+	add - links a project file to this file.
+	component - for components.
+	function - used to create a function.
+	arch - archetype.
+	with - adds components to an entity or archetype.
+	interface - for interfaces.
+	requires - list of components required for an interface.
+	system - for systems.
+	for - implies what components a system accesses.
+	entity - for entities.
+	extends - implies what archetypes the entity inherits from.
+	using - implies what systems access this entity.
+	impl - used the implement a method from an interface or the imply what interfaces this entity will implement.
+	from - implies what interface the method is emplementing from.
+	init - creates a function called on the construction of an entity or component.
+	return - return a value from a function
+
+Symbols:
+
+	{} - scope
+	() - expression
+	"" - string
+	<> - type input/generic
+	; - line end
+	-> - return type hint
+	-- - comment
+	= - assignment
+	&& - and
+	|| - or
+	> - greater than
+	< - less than
+	>= - greater than or equal too
+	<= - less than or equal too
+	== - equals
+
+--
+
+--
+projects must be given a name. The name will be used as a header guard to prevent multiple implementations of the same file.
+--
+project bisExample
+{
+	-- 
+	other files can be added to this project to insure that they are already implemented.
+	--
+	add "util/TestComponent.bis";
+	add "tools/printable.bis";
+	add "src/myOtherComponent.bis";
+
+	-- components --
+
+	--
+	components are similar to structs in other languages.
+	They are different in the way that they can be included by entities to grant them accessable data. 
+	Components can also have functions that edit its data.
+	--
+	component myComponent
+	{
+		int32 age;
+		str name;
+
+		function IncrementAge() -> void
+		{
+			age++;
+		}
+	}
+
+	component dataTypes
+	{
+		int32 Integer;
+		uint32 unsigned_Integer;
+		int64 Long;
+		uint64 unsigned_Long;
+
+		float Float;
+		double Double;
+
+		bool Boolean;
+
+		str String,
+
+		vec2 Vector2;
+		vec3 Vector3;
+		vec4 Vector4;
+
+		mat2 Matrix2;
+		mat3 Matrix3;
+		mat4 Matrix4;
+		-- etc --
+
+		child<myEnt> ChildObject;
+		Entity EntityRef;
+		handle<int> ValueHandle;
+	}
+
+
+	-- archetypes --
+
+	-- 
+	Archetypes are collections of components that are inherited by entities
+	Archetypes can also have functions that access and edit the data of the included components.
+	--
+
+	arch myArch with printable, TestComponent
+	{
+		function toString() -> void
+		{
+			--code--
+		}
+
+		function getItem() -> int
+		{
+			--code--
+		}
+	}
+
+	-- interfaces --
+
+	--
+	Interfaces are typesafe ways of calling functions to entities without knowing if they have the desired components.
+	If an entity doesn't have the required components the function wont be called
+	The functions attached to the interface are implemented by the entity and the entity must have the required components
+	--
+
+	interface myInterface requires myComponent 
+	{
+		function getName() -> str;
+		function getAge() -> int;
+	}
+
+	-- systems --
+
+	--
+	Systems access and edit an entities components every game tick.
+	To attach a system to an entity the entity must have the correct components.
+	--
+
+	system mySystem for myComponent, TestComponent
+	{
+		-- code --
+	}
+
+	-- entities --
+
+	--
+	Entities are the main game object which hold a collection of components from the wisted components and attached archetype as well as systems that will edit the entity wach tick and optionally an interface for it to implement.
+	An entity can initialize (init) a components values and implement (impl) an interfaces functions.
+	--
+
+	entity MyEnt with myComponent, myOtherComponent extends myArch 
+	using mySystem
+	impl myInterface
+	{
+		init myComponent
+		{
+			Age = 0;
+			name = "test entity";
+		}
+
+		init this
+		{
+			--entity initializer--
+		}
+
+		impl function getName() -> str from myInterface
+		{
+			
+		}
+
+		impl function getAge() -> int from myInterface
+		{
+
+		}
+	}
+
+}

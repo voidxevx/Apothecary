@@ -43,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -110,7 +110,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Apothecary\src;$(SolutionDir)imgui\imgui;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Apothecary\src;$(SolutionDir)imgui\imgui;$(SolutionDir)Apothec\src\Apothec\Tools;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +144,11 @@
     <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\ArgonSIMD.h" />
     <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\Matrix.h" />
     <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\Vector.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bimsuth.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthComponentPool.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthComponent.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthDataType.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\types.h" />
     <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon.h" />
     <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\ComponentPool.h" />
     <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\ECS.h" />
@@ -157,6 +162,14 @@
     <ClCompile Include="src\Apothec\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp" />
     <ClCompile Include="src\Apothec\Debug\Widgets.cpp" />
     <ClCompile Include="src\Apothec\Layers\LayerStack.cpp" />
+    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthComponentPool.cpp" />
+    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\SmartCast.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Apothec\Tools\Bismuth\src\Bismuth.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
