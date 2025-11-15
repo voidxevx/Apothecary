@@ -8,23 +8,23 @@ namespace apothec
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
+		: m_LayerStack(nullptr)
 	{
 		// application construction
 		s_Instance = this;
 		m_Window = std::unique_ptr<lithium::Window>(lithium::Window::CreateWindow());
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
+		// tonic side construction
+		this->Init();
+
+		// debug layers
 		debug::DebugLayer::CreateDebugLayer();
 		PushLayer(debug::DebugLayer::Get());
 
 		debug::DebugLayer::Get()->AddWidget(new debug::widgets::AppManagerWidget());
 		static argon::vec2 vec = {0, 0};
 		debug::DebugLayer::Get()->AddWidget(new debug::widgets::Vec2HandleWidget(vec, "test"));
-
-
-		// tonic side construction
-		this->Init();
-
 	}
 
 	Application::~Application()
@@ -50,7 +50,7 @@ namespace apothec
 			m_Window->PreRender();
 
 			// render calls
-			m_LayerStack.PropogateUpdate(m_DeltaTime);
+			m_LayerStack->PropogateUpdate(m_DeltaTime);
 
 			// update ecs systems
 
@@ -77,7 +77,7 @@ namespace apothec
 	{
 		lithium::events::EventDispatcher disp(event);
 		disp.Dispatch<lithium::events::WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
-		m_LayerStack.PropogateEvent(event);
+		m_LayerStack->PropogateEvent(event);
 	}
 
 }

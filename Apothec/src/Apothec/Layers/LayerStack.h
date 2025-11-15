@@ -7,41 +7,56 @@
 namespace apothec
 {
 
-	struct LayerContainer
+	struct LayerStack
 	{
-		EventLayer* const thisLayer;
-		LayerContainer* nextLayer = nullptr; // down
-		LayerContainer* lastLayer = nullptr; // up
+		EventLayer* ThisLayer;
+		LayerStack* NextLayer;
+		LayerStack* LastLayer;
+		// The layer will automatically detach itself from the stack apon deletion.
+		bool AutoDetach = true;
 
-		LayerContainer(EventLayer* layer)
-			: thisLayer(layer)
+		LayerStack(EventLayer* layer)
+			: ThisLayer(layer)
+			, NextLayer(nullptr)
+			, LastLayer(nullptr)
 		{}
 
-		void PurgeLayers();
-		void UpdateLayer(double deltaTime);
-		void OnEvent(lithium::events::Event& event);
-
-		bool TryRemoveLayer(EventLayer* layer);
-	};
-
-	class LayerStack
-	{
-	public:
-		LayerStack();
 		~LayerStack();
 
+		/*
+		 * Deletes all layers apart of the stack
+		 */
+		void PurgeStack(LayerStack*& storage);
+
+		void PurgeStack_Up();
+		void PurgeStack_Down();
+
+		/*
+		 * Propogates updates in both directions from the called layer
+		 */
 		void PropogateUpdate(double deltaTime);
+
+		/*
+		 *  Propogates event calls downward (next layer.) Stops apon the event being handled
+		 */
 		void PropogateEvent(lithium::events::Event& event);
 
+		/*
+		 * Calls Update layer on all layers in a direction
+		 * Up: LastLayer
+		 * Down: NextLayer
+		 */
+		void Pass_OnUpdate_Up(double deltaTime); void Pass_OnUpdate_Down(double deltaTime);
+
+		/*
+		 * Pushes a layer to the end of the stack (last to render.) 
+		 */
 		void PushLayer(EventLayer* layer);
-		void PushOverlay(EventLayer* overlay);
-		void RemoveLayer(EventLayer* layer);
 
-	private:
-		LayerContainer* m_TopLayer = nullptr; // first layer 
-		LayerContainer* m_InsertLayer = nullptr; // layer to insert to
-		size_t m_TotalLayers = 0;
-
+		/*
+		 * Detaches layer from the stack 
+		 */
+		void Detach();
 	};
 
 }

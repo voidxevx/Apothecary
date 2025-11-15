@@ -34,6 +34,12 @@ apothec::Application::Init()
 }
 
 void TONIC_API
+apothec::Application::DebugInit()
+{
+
+}
+
+void TONIC_API
 apothec::Application::Destroy()
 {
 

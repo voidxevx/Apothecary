@@ -3,134 +3,120 @@
 namespace apothec
 {
 
-	LayerStack::LayerStack()
-	{}
-
 	LayerStack::~LayerStack()
 	{
-		if (m_TopLayer)
-			m_TopLayer->PurgeLayers();
+		if (AutoDetach)
+			Detach();
+
+		delete ThisLayer;
+	}
+
+
+
+	void
+	LayerStack::PurgeStack(LayerStack*& storage)
+	{
+		AutoDetach = false;
+
+		if (NextLayer)
+			NextLayer->PurgeStack_Down();
+		if (LastLayer)
+			LastLayer->PurgeStack_Up();
+
+		storage = nullptr;
+		delete this;
 	}
 
 	void
-	LayerStack::PushLayer(EventLayer* layer)
+	LayerStack::PurgeStack_Up()
 	{
-		layer->OnAttach();
-		LayerContainer* cont = new LayerContainer(layer);
-		if (!m_TopLayer && !m_InsertLayer) // no layers created
-		{
-			m_TopLayer = cont;
-			m_InsertLayer = m_TopLayer;
-		}
-		else if (!m_InsertLayer) // the only layer is an overlay
-		{
-			m_TopLayer->lastLayer = cont;
-			m_InsertLayer = cont;
-			cont->nextLayer = m_TopLayer;
-		}
-		else // insert layer
-		{
-			cont->lastLayer = m_InsertLayer;
-			cont->nextLayer = m_InsertLayer->nextLayer;
-			if (cont->nextLayer)
-				cont->nextLayer->lastLayer = cont;
-			m_InsertLayer->nextLayer = cont;
-			m_InsertLayer = cont;
-			++m_TotalLayers;
-		}
+		if (LastLayer)
+			LastLayer->PurgeStack_Up();
+
+		delete this;
 	}
 
 	void
-	LayerStack::PushOverlay(EventLayer* overlay)
+	LayerStack::PurgeStack_Down()
 	{
-		overlay->OnAttach();
-		LayerContainer* cont = new LayerContainer(overlay);
-		if (!m_TopLayer && !m_InsertLayer) // no layers
-		{
-			m_TopLayer = cont;
-		}
-		else if (m_TopLayer) // push overlay to the top - if is only for dereferenced top layer warning
-		{
-			cont->lastLayer = m_TopLayer;
-			m_TopLayer->nextLayer = cont;
-			m_TopLayer = cont;
-			++m_TotalLayers;
-		}
+		if (NextLayer)
+			NextLayer->PurgeStack_Down();
+
+		delete this;
 	}
 
-	void 
-	LayerStack::RemoveLayer(EventLayer* layer)
-	{
-		if (layer)
-			layer->OnDetach();
-		if (layer == m_TopLayer->thisLayer) // only one layer
-		{
-			delete layer;
-			m_TopLayer = nullptr;
-			m_InsertLayer = nullptr;
-		}
-		else if(m_TopLayer->TryRemoveLayer(layer))
-			--m_TotalLayers;
-	}
 
-	void 
+
+	void
 	LayerStack::PropogateUpdate(double deltaTime)
 	{
-		if (m_TopLayer)
-			m_TopLayer->UpdateLayer(deltaTime);
+		ThisLayer->OnUpdate(deltaTime);
+
+		if (LastLayer)
+			LastLayer->Pass_OnUpdate_Up(deltaTime);
+		if (NextLayer)
+			NextLayer->Pass_OnUpdate_Down(deltaTime);
 	}
 
 	void
 	LayerStack::PropogateEvent(lithium::events::Event& event)
 	{
-		if (m_TopLayer)
-			m_TopLayer->OnEvent(event);
+		ThisLayer->OnEvent(event);
+
+		if (NextLayer && event.Handled)
+			NextLayer->PropogateEvent(event);
 	}
 
 
 	void
-	LayerContainer::PurgeLayers()
+	LayerStack::Pass_OnUpdate_Up(double deltaTime)
 	{
-		if (lastLayer)
-			lastLayer->PurgeLayers();
+		ThisLayer->OnUpdate(deltaTime);
 
-		delete this;
+		if (LastLayer)
+			LastLayer->Pass_OnUpdate_Up(deltaTime);
 	}
 
-	bool
-	LayerContainer::TryRemoveLayer(EventLayer* layer)
+	void
+	LayerStack::Pass_OnUpdate_Down(double deltaTime)
 	{
-		if (layer == thisLayer)
-		{
-			thisLayer->OnDetach();
-			delete thisLayer;
-			if (nextLayer)
-				nextLayer->lastLayer = lastLayer;
-			if (lastLayer)
-				lastLayer->nextLayer = nextLayer;
-			return true;
-		}
-		else if (nextLayer)
-			return nextLayer->TryRemoveLayer(layer);
+		ThisLayer->OnUpdate(deltaTime);
+
+		if (NextLayer)
+			NextLayer->Pass_OnUpdate_Down(deltaTime);
+	}
+
+
+
+
+	void
+	LayerStack::PushLayer(EventLayer* layer)
+	{
+		layer->OnAttach();
+		if (NextLayer) // recursive push
+			NextLayer->PushLayer(layer);
 		else
-			return false;
+		{
+			LayerStack* newLayer = new LayerStack{ layer };
+			NextLayer = newLayer;
+			newLayer->LastLayer = this;
+		}
 	}
+
+
+
 
 	void
-	LayerContainer::UpdateLayer(double deltaTime)
+	LayerStack::Detach()
 	{
-		thisLayer->OnUpdate(deltaTime);
-		if (nextLayer)
-			nextLayer->UpdateLayer(deltaTime);
-	}
+		ThisLayer->OnDetach();
+		if (LastLayer)
+			LastLayer->NextLayer = NextLayer;
+		if (NextLayer)
+			NextLayer->LastLayer = LastLayer;
 
-	void 
-	LayerContainer::OnEvent(lithium::events::Event& event)
-	{
-		thisLayer->OnEvent(event);
-		bool handled = event.Handled;
-		if (!handled && nextLayer)
-			nextLayer->OnEvent(event);
+		LastLayer = nullptr;
+		NextLayer = nullptr;
 	}
 
 }

@@ -55,4 +55,7 @@
     <Text Include="src\Apothecary\Lithium\Lithium.txt" />
     <Text Include="src\Apothecary\Apothecary.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="imgui.ini" />
+  </ItemGroup>
 </Project>

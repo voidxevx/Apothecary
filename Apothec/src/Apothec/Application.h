@@ -25,19 +25,18 @@ namespace apothec
 
 		inline void PushLayer(EventLayer* layer)
 		{
-			m_LayerStack.PushLayer(layer);
-		}
-		inline void PushOverlay(EventLayer* layer)
-		{
-			m_LayerStack.PushOverlay(layer);
-		}
-		inline void RemoveLayer(EventLayer* layer)
-		{
-			m_LayerStack.RemoveLayer(layer);
+			if (m_LayerStack)
+				m_LayerStack->PushLayer(layer);
+			else
+			{
+				layer->OnAttach();
+				m_LayerStack = new LayerStack(layer);
+			}
 		}
 
 		// Defined in Tonic
 		void TONIC_LINK Init();
+		void TONIC_LINK DebugInit();
 		void TONIC_LINK Destroy();
 		void TONIC_LINK Update(double deltaTime);
 
@@ -51,7 +50,7 @@ namespace apothec
 		bool OnWindowClose(lithium::events::WindowCloseEvent& event);
 
 		std::unique_ptr<lithium::Window> m_Window;
-		LayerStack m_LayerStack;
+		LayerStack* m_LayerStack;
 		bool m_Running = true;
 
 		static Application* s_Instance;

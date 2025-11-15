@@ -148,6 +148,9 @@
     <Text Include="src\Apothecary\Apothecary.txt" />
     <Text Include="src\Apothecary\Lithium\Lithium.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="imgui.ini" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
