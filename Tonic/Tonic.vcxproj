@@ -122,9 +122,6 @@
       <Project>{6faaa1ac-1205-4e54-9f4f-83b99bd827e4}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Content\Engine\ApothecaryIcon.png" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

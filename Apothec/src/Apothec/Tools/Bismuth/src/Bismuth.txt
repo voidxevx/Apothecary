@@ -19,7 +19,7 @@ Keywords:
 	using - implies what systems access this entity.
 	impl - used the implement a method from an interface or the imply what interfaces this entity will implement.
 	from - implies what interface the method is emplementing from.
-	init - creates a function called on the construction of an entity or component.
+	construct - creates a function called on the construction of an entity or component.
 	return - return a value from a function
 
 Symbols:
@@ -138,11 +138,11 @@ project bisExample
 	-- systems --
 
 	--
-	Systems access and edit an entities components every game tick.
-	To attach a system to an entity the entity must have the correct components.
+	Systems access and edit an archetype every game tick.
+	To attach a system to an entity the entity must have the correct archetype.
 	--
 
-	system mySystem for myComponent, TestComponent
+	system mySystem for myArch
 	{
 		-- code --
 	}
@@ -150,7 +150,7 @@ project bisExample
 	-- entities --
 
 	--
-	Entities are the main game object which hold a collection of components from the wisted components and attached archetype as well as systems that will edit the entity wach tick and optionally an interface for it to implement.
+	Entities are the main game object which hold a collection of components from the listed components and attached archetype as well as systems that will edit the entity each tick and optionally an interface for it to implement.
 	An entity can initialize (init) a components values and implement (impl) an interfaces functions.
 	--
 
@@ -158,25 +158,19 @@ project bisExample
 	using mySystem
 	impl myInterface
 	{
-		init myComponent
-		{
-			Age = 0;
-			name = "test entity";
-		}
-
-		init this
+		construct()
 		{
 			--entity initializer--
 		}
 
 		impl function getName() -> str from myInterface
 		{
-			
+			--code--
 		}
 
 		impl function getAge() -> int from myInterface
 		{
-
+			--code--
 		}
 	}
 

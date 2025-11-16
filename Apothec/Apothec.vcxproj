@@ -145,10 +145,16 @@
     <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\Matrix.h" />
     <ClInclude Include="src\Apothec\Tools\Argon\src\Argon\DataTypes\Vector.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bimsuth.h" />
-    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthComponentPool.h" />
-    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthComponent.h" />
-    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthDataType.h" />
-    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\types.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\Archetypes\BismuthArchetype.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponentPool.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponent.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\Interfaces\BismuthInterface.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\BismuthDataType.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Entities\BismuthEntity.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Systems\BismuthFunctions.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthState.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\types.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Systems\BismuthSystem.h" />
     <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon.h" />
     <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\ComponentPool.h" />
     <ClInclude Include="src\Apothec\Tools\Xenon\src\Xenon\ECS.h" />
@@ -162,8 +168,9 @@
     <ClCompile Include="src\Apothec\Debug\Platforms\OpenGL\OpenGL_DebugLayer.cpp" />
     <ClCompile Include="src\Apothec\Debug\Widgets.cpp" />
     <ClCompile Include="src\Apothec\Layers\LayerStack.cpp" />
-    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthComponentPool.cpp" />
-    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\SmartCast.cpp" />
+    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponentPool.cpp" />
+    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthState.cpp" />
+    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\SmartCast.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Apothec\Tools\Bismuth\src\Bismuth.txt" />

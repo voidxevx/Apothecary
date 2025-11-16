@@ -6,8 +6,11 @@ namespace bismuth
 	void
 	ComponentPool::InitializeComponent(EntityID entity)
 	{
-		m_EntityLocations[entity] = m_DataPool.size();
-		m_VTable->Construct(m_DataPool, entity);
+		if (m_EntityLocations.count(entity) != 0) // prevent double initializations
+		{
+			m_EntityLocations[entity] = m_DataPool.size();
+			m_VTable->Construct(m_DataPool, entity);
+		}
 	}
 
 	void
@@ -30,6 +33,7 @@ namespace bismuth
 				m_DataPool.pop_back();
 
 			m_EntityLocations[lastEntity] = entityLocation; // update moved entity's pointer
+			m_EntityLocations.erase(entity);
 		}
 	}
 

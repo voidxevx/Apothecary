@@ -5,11 +5,14 @@
     <BuildType Name="Release" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="Apothecary/Apothecary.vcxproj" Id="987da2a6-4fd5-4ed5-b7de-1b785a2d4bcb">
-    <BuildType Solution="dist|*" Project="Debug" />
-  </Project>
+  <Folder Name="/Content/" />
+  <Folder Name="/Content/Engine/" />
+  <Folder Name="/Content/Tonic/" />
   <Project Path="Apothec/Apothec.vcxproj" Id="6faaa1ac-1205-4e54-9f4f-83b99bd827e4">
     <BuildType Solution="dist|*" Project="Release" />
+  </Project>
+  <Project Path="Apothecary/Apothecary.vcxproj" Id="987da2a6-4fd5-4ed5-b7de-1b785a2d4bcb">
+    <BuildType Solution="dist|*" Project="Debug" />
   </Project>
   <Project Path="glad/glad.vcxproj" Id="4b14e2f7-51c3-4cdb-a75f-547173cb50d7">
     <BuildType Solution="dist|*" Project="Release" />

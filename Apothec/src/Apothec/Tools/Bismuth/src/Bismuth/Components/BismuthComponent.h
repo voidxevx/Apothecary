@@ -1,7 +1,8 @@
 #pragma once
 
-#include "types.h"
-#include "BismuthDataType.h"
+#include "../Data/types.h"
+#include "../Data/BismuthDataType.h"
+#include "../Systems/BismuthFunctions.h"
 
 #include <string>
 #include <map>
@@ -10,16 +11,10 @@
 namespace bismuth
 {
 
-	struct PropertyTemplate
-	{
-		PropertyID ID;
-		DataTypes Type;
-	};
-
 	class ComponentVTable
 	{
 	public:
-		ComponentVTable(std::initializer_list<PropertyTemplate> properties)
+		ComponentVTable(std::vector<std::pair<PropertyID, IFunction*>> methods, std::initializer_list<PropertyTemplate> properties)
 		{
 			size_t offset = 1; // starts at 1 because 0 is a pointer to the entity
 			for (const auto& prop : properties)
@@ -29,6 +24,11 @@ namespace bismuth
 				++offset;
 			}
 			m_Alignment = offset;
+
+			for (const auto& method : methods)
+			{
+				m_Methods[method.first] = method.second;
+			}
 		}
 
 		void 
@@ -56,8 +56,11 @@ namespace bismuth
 			pool[componentPtr + m_PropertyOffsets[id]]->Set(newVal);
 		}
 
+		inline IFunction* GetMethod(PropertyID id) const { return m_Methods.at(id); }
+
 	private:
 		std::map<PropertyID, size_t> m_PropertyOffsets;
+		std::map<PropertyID, IFunction*> m_Methods;
 		std::vector<DataTypes> m_Properties;
 		size_t m_Alignment;
 	};

@@ -35,6 +35,8 @@ namespace bismuth
 		 */
 		void SetProperty(EntityID entity, PropertyID property, DataPointer newVal);
 
+		inline std::weak_ptr<ComponentVTable> GetVTable() const { return m_VTable; }
+
 	private:
 		std::shared_ptr<ComponentVTable> m_VTable;
 		std::vector<IData*> m_DataPool;

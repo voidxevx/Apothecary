@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include "../../../Argon/src/Argon.h"
+#include "../../../../Argon/src/Argon.h"
+#include "types.h"
 
 namespace bismuth
 {
@@ -26,6 +27,12 @@ namespace bismuth
 	{
 		return DataTypes::Custom;
 	}
+
+	struct PropertyTemplate
+	{
+		PropertyID ID;
+		DataTypes Type;
+	};
 
 #define GETDATATYPE(t, v) template<> constexpr DataTypes GetDataType<t>() { return DataTypes::v; }
 
