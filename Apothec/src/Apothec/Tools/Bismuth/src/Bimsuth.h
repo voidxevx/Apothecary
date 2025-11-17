@@ -1,5 +1,7 @@
 #pragma once
 
-#include "Bismuth/BismuthDataType.h"
-#include "Bismuth/BismuthComponent.h"
-#include "Bismuth/BismuthComponentPool.h"
+#include "Bismuth/Data/BismuthDataType.h"
+#include "Bismuth/Components/BismuthComponent.h"
+#include "Bismuth/Components/BismuthComponentPool.h"
+
+#include "Bismuth/Generation/Tokenizer.h"

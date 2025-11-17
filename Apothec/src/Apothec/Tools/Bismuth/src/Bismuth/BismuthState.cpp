@@ -10,7 +10,7 @@ namespace bismuth
 
 	state::state()
 	{
-		srand(time(0));
+		srand((unsigned int)time(0));
 		s_Instance = this;
 	}
 
@@ -19,7 +19,7 @@ namespace bismuth
 	const
 	{
 		EntityID id = rand();
-		while (m_Entities.count(id) > 0)
+		while (m_Entities.count(id) != 0)
 			id = rand();
 		return id;
 	}
@@ -55,6 +55,116 @@ namespace bismuth
 
 		for (const auto& syst : m_EntityVTables[m_Entities[entity]]->GetSystems())
 			m_Systems[syst]->RemoveEntity(entity);
+	}
+
+
+	void state::BuildFile(const std::string& filePath)
+	{
+		if (m_BuildThread.joinable())
+			m_BuildQueue.push_back(filePath);
+		else
+		{
+			m_BuildQueue.push_back(filePath);
+			m_BuildThread = std::thread([&]() {
+
+				while (m_BuildQueue.size() > 0)
+				{
+					generation::Tokenizer tokens{ m_BuildQueue.back() };
+					BuildTokens(tokens);
+				}
+
+			});
+		}
+	}
+
+	void
+	state::BuildTokens(generation::Tokenizer& tokenizer)
+	{
+		
+		const std::vector<generation::Token>& tokens{ tokenizer.GetTokens() };
+		size_t index{};
+		while (index < tokens.size())
+		{
+			generation::Token c_token{ tokens[index] };
+
+			/*
+			 * Project tags - checks if a project has already been built. 
+			 */
+			if (c_token.Type == generation::TokenType::ProjectTag)
+			{
+				++index;
+				if (std::find(m_Projects.begin(), m_Projects.end(), tokens[index].Value.value()) != m_Projects.end())
+					return;
+				else
+					m_Projects.push_back(tokens[index].Value.value());
+			}
+
+			/*
+			 * Components Tags:
+			 *  - Requires an identifier to follow.
+			 *  - stores properties and methods.
+			 */
+			else if (c_token.Type == generation::TokenType::ComponentTag)
+			{
+
+			}
+
+			/*
+			 * Archetype Tags:
+			 * - Requires an identifier and at least one component.
+			 * - stores only methods.
+			 */
+			else if (c_token.Type == generation::TokenType::ArchetypeTag)
+			{
+
+			}
+
+			/*
+			 * Interface Tags:
+			 * - Requires an identifier and at least one component or archetype.
+			 * - cannot store function implementations only signatures
+			 */
+			else if (c_token.Type == generation::TokenType::InterfaceTag)
+			{
+
+			}
+
+			/*
+			 * System Tags:
+			 * - Requires An identifier.
+			 * - Can optionally include required archetypes.
+			 * - cannot include single components.
+			 * - Stores a single function.
+			 */
+			else if (c_token.Type == generation::TokenType::SystemTag)
+			{
+
+			}
+
+			/*
+			 * Entity Tags:
+			 * - Requires an identifier and at least one component or one archetype.
+			 * - Can optionally have a list of systems and interfaces.
+			 * - The entity can have multiple constructors as well as methods and implementations for interface functions.
+			 */
+			else if (c_token.Type == generation::TokenType::EntityTag)
+			{
+
+			}
+
+			/*
+			 *  Function Tags:
+			 * - Global function.
+			 */
+			else if (c_token.Type == generation::TokenType::FunctionTag)
+			{
+
+			}
+
+
+			++index;
+		}
+
 	}
 
 }

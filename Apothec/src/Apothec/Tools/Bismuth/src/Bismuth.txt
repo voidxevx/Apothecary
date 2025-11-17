@@ -1,5 +1,7 @@
 
--- Bismuth ECSO language --
+-- Bismuth ECSOL --
+
+-- Entity Component System Oriented Language --
 
 --
 Keywords:
@@ -13,10 +15,9 @@ Keywords:
 	interface - for interfaces.
 	requires - list of components required for an interface.
 	system - for systems.
-	for - implies what components a system accesses.
 	entity - for entities.
 	extends - implies what archetypes the entity inherits from.
-	using - implies what systems access this entity.
+	using - implies what systems access this entity or archetype.
 	impl - used the implement a method from an interface or the imply what interfaces this entity will implement.
 	from - implies what interface the method is emplementing from.
 	construct - creates a function called on the construction of an entity or component.
@@ -32,6 +33,7 @@ Symbols:
 	-> - return type hint
 	-- - comment
 	= - assignment
+
 	&& - and
 	|| - or
 	> - greater than
@@ -39,6 +41,11 @@ Symbols:
 	>= - greater than or equal too
 	<= - less than or equal too
 	== - equals
+	+
+	-
+	*
+	/
+	...
 
 --
 
@@ -142,7 +149,7 @@ project bisExample
 	To attach a system to an entity the entity must have the correct archetype.
 	--
 
-	system mySystem for myArch
+	system mySystem extends myArch
 	{
 		-- code --
 	}

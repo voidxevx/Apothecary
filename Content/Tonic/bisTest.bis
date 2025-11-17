@@ -1,0 +1,90 @@
+project Test
+{
+	
+	component DamageComponent
+	{
+		uint32 MaxHealth;
+		uint32 MaxShield;
+		int32 Health;
+		int32 Shield;
+		bool isDead;
+
+		function TakeDamage(uint32 damage) -> void
+		{
+			if (Shield > 0)
+				shield -= damage;
+			else 
+				Health -= damage;
+
+			if (Health <= 0)
+				isDead = true;
+		}
+
+		function GrantHealth(uint32 amount) -> void
+		{
+			Health += amount
+		}
+
+		function GrantShield(uint32 amount) -> void
+		{
+			Shield += amount;
+		}
+
+		function IsDead() -> bool
+		{
+			return isDead;
+		}
+
+	}
+
+	interface DamageAble requires DamageComponent
+	{
+		function TakeDamage(uint32 damage) -> void;
+		function GrantHealth(uint32 amount) -> void;
+		function GrantShield(uint32 amount) -> void;
+		function IsDead() -> bool;
+	}
+
+	arch DamageAble with DamageComponent;
+
+	system StatTracker extends DamageAble
+	{
+		float healthPercent = (DamageAble:DamageComponent:Health / DamageAble:DamageComponent:MaxHealth) * 100;
+		float shieldPercent = (DamageAble:DamageComponent:Shield / DamageAble:DamageComponent:MaxShield) * 100;
+
+		println("Health: " + healthPercent + "% Shield: " + shieldPercent + "%");
+	}
+
+	entity Enemy extends DamageAble
+	impl DamageAble
+	{
+		construct(uint32 maxHealth, uint32 maxShield)
+		{
+			DamageAble:DamageComponent:MaxHealth = maxHealth;
+			DamageAble:DamageComponent:MaxShield = maxShield;
+			DamageAble:DamageComponent:Health = maxHealth;
+			DamageAble:DamageComponent:Shield = maxShield;
+		}
+
+		imple function TakeDamage(uint32 damage) -> void from DamageAble
+		{
+			DamageAble:DamageComponent:TakeDamage(damage);
+		}
+
+		imple function GrantHealth(uint32 amount) -> void from DamageAble
+		{
+			DamageAble:DamageComponent:GrantHealth(amount);
+		}
+
+		imple function GrantShield(uint32 amount) -> void from DamageAble
+		{
+			DamageAble:DamageComponent:GrantSheild(amount);
+		}
+
+		imple function IsDead() -> bool from DamageAble
+		{
+			return DamageAble:DamageComponent:IsDead();
+		}
+	}
+
+}

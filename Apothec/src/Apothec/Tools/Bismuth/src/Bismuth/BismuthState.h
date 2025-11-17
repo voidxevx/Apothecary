@@ -7,6 +7,7 @@
 #include "Systems/BismuthFunctions.h"
 #include "Systems/BismuthSystem.h"
 #include "Entities/BismuthEntity.h"
+#include "Generation/Tokenizer.h"
 
 #include <thread>
 
@@ -36,12 +37,12 @@ namespace bismuth
 		inline void FinishMain() { if (m_MainThread.joinable()) m_MainThread.join(); }
 
 		/* Generation ----- */
-		// tokenizeString()
-		// BuildTokens()
-		// StreamlineTokenChain()
+		void BuildFile(const std::string& filePath);
+		void BuildTokens(generation::Tokenizer& tokens);
+		// GenerateByteCode()
 		
 		/* Code Running ----- */
-		// RunTokens()
+		// RunByteCode()
 		// EvaluateExpression()
 		// PushScope()
 		// PopScope()
@@ -62,7 +63,8 @@ namespace bismuth
 		std::map<EntityID, PropertyID> m_Entities; // all entities and their vtables
 
 		std::thread m_MainThread;  // thread used to run code
-		std::thread m_BuildThread; // thread used to build code
+		std::vector<std::string> m_BuildQueue;
+		std::thread m_BuildThread; // threads used to build code
 
 		static state* s_Instance;
 	};

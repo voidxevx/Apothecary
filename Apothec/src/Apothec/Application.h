@@ -6,8 +6,6 @@
 #include "Layers/LayerStack.h"
 #include "Debug/DebugLayer.h"
 
-#include "Tools/Xenon/src/Xenon.h"
-
 #include <memory>
 
 namespace apothec
@@ -42,7 +40,6 @@ namespace apothec
 
 		static inline Application& Get() { return *s_Instance; }
 		inline lithium::Window& GetWindow() { return *m_Window; }
-		inline xenon::registry& GetRegistry() { return *m_EntityRegistry; }
 
 		void CloseApplication();
 
@@ -58,7 +55,6 @@ namespace apothec
 		double m_LastTime = 0;
 		double m_DeltaTime = 0;
 
-		xenon::registry* m_EntityRegistry;
 	};
 
 }

@@ -1,0 +1,68 @@
+project test 
+{
+	
+	-- test component --
+	component PersonComponent
+	{
+		uint32 Age;
+		str Name;
+	}
+
+	-- test archetype --
+	arch Person with PersonComponent
+	{
+		function GetAge() -> uint32
+		{
+			return PersonComponent:Age;
+		}
+
+		function GetName() -> str
+		{
+			return PersonComponent:Name;
+		}
+
+		function SetAge(uint32 val) -> void
+		{
+			PersonComponent:Age = val;
+		}
+
+		function SetName(str val) -> void
+		{
+			PersonComponent:Name = val;
+		}
+	}
+
+	-- test interface --
+	interface IPerson requires Person
+	{
+		function GetAge() -> uint32;
+		function GetName() -> str;
+	}
+
+	system NameGetter
+	{
+		println("Name: " + try GetName() from IPerson catch "not a person" + " Age: " + try GetAge() from IPerson catch 0);
+	}
+
+	-- test entity --
+	entity Geoffry extends Person
+	using NameGetter
+	impl IPerson
+	{
+		construct()
+		{
+			Person:SetAge(23);
+			Person:SetName("Geoffry");
+		}
+
+		impl function GetAge() -> uint32 from IPerson
+		{
+			return Person:GetAge();
+		}
+
+		impl function GetName() -> str from IPerson
+		{
+			return Person:GetName();
+		}
+	}
+}
