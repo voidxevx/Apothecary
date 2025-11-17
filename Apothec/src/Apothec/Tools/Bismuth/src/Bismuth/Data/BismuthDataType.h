@@ -31,7 +31,7 @@ namespace bismuth
 	struct PropertyTemplate
 	{
 		PropertyID ID;
-		DataTypes Type;
+		PropertyID Type;
 	};
 
 #define GETDATATYPE(t, v) template<> constexpr DataTypes GetDataType<t>() { return DataTypes::v; }

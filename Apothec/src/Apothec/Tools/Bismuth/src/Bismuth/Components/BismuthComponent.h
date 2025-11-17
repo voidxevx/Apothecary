@@ -14,12 +14,12 @@ namespace bismuth
 	class ComponentVTable
 	{
 	public:
-		ComponentVTable(std::vector<std::pair<PropertyID, IFunction*>> methods, std::initializer_list<PropertyTemplate> properties)
+		ComponentVTable(std::vector<std::pair<PropertyID, IFunction*>> methods, std::vector<PropertyTemplate> properties)
 		{
 			size_t offset = 1; // starts at 1 because 0 is a pointer to the entity
 			for (const auto& prop : properties)
 			{
-				m_Properties.push_back(prop.Type);
+				//m_Properties.push_back(prop.Type);
 				m_PropertyOffsets[prop.ID] = offset;
 				++offset;
 			}

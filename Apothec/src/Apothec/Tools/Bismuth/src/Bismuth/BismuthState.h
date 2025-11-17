@@ -18,6 +18,7 @@ namespace bismuth
 	{
 	public:
 		explicit state();
+		~state();
 		inline static state* GetGlobal() { return s_Instance; }
 
 		/* Entities ----- */
@@ -25,12 +26,12 @@ namespace bismuth
 		void DestroyEntity(EntityID entity);
 
 		/* Native control ----- */
-		inline void RegisterComponent(PropertyID id, std::shared_ptr<ComponentVTable> component) { m_ComponentPools[id] = std::make_unique<ComponentPool>(component); }
+		inline void RegisterComponent(PropertyID id, ComponentVTable component) { m_ComponentPools[id] = new ComponentPool( component ); }
 		inline void RegisterSystem(PropertyID id, ISystem* system) { m_Systems[id] = system; }
 		inline void RegisterFunction(PropertyID id, IFunction* func) { m_GlobalFunctions[id] = func; }
-		inline void RegisterEntityVTable(PropertyID id, std::shared_ptr<EntityVTable> entity) { m_EntityVTables[id] = entity; }
-		inline void RegisterArchetype(PropertyID id, std::shared_ptr<ArchetypeVTable> archetype) { m_ArchetypeVTables[id] = archetype; }
-		inline void RegisterInterface(PropertyID id, std::shared_ptr<InterfaceVTable> interface) { m_InterfaceVtables[id] = interface; }
+		inline void RegisterEntityVTable(PropertyID id, EntityVTable* entity) { m_EntityVTables[id] = entity; }
+		inline void RegisterArchetype(PropertyID id, ArchetypeVTable* archetype) { m_ArchetypeVTables[id] = archetype; }
+		inline void RegisterInterface(PropertyID id, InterfaceVTable* interface) { m_InterfaceVtables[id] = interface; }
 
 		/* Threads ----- */
 		inline void FinishBuild() { if (m_BuildThread.joinable()) m_BuildThread.join(); }
@@ -39,6 +40,7 @@ namespace bismuth
 		/* Generation ----- */
 		void BuildFile(const std::string& filePath);
 		void BuildTokens(generation::Tokenizer& tokens);
+		std::pair<PropertyID, IFunction*> ParseFunction(const std::vector<generation::Token>& tokens, size_t& index);
 		// GenerateByteCode()
 		
 		/* Code Running ----- */
@@ -52,13 +54,13 @@ namespace bismuth
 		EntityID CreateUniqueEntityID() const;
 
 		std::vector<PropertyID> m_Projects;                                    // stores project names to prevent duplicate definitions
-		std::map<PropertyID, std::unique_ptr<ComponentPool>> m_ComponentPools; // stores data pools for every component
+		std::map<PropertyID, ComponentPool*> m_ComponentPools; // stores data pools for every component
 		std::map<PropertyID, ISystem*> m_Systems;                              // all systems
 		std::map<PropertyID, IFunction*> m_GlobalFunctions;                    // globally accessible functions
 
-		std::map<PropertyID, std::shared_ptr<EntityVTable>> m_EntityVTables;       // VTables for Entities
-		std::map<PropertyID, std::shared_ptr<ArchetypeVTable>> m_ArchetypeVTables; // VTables for archetypes
-		std::map<PropertyID, std::shared_ptr<InterfaceVTable>> m_InterfaceVtables; // VTables for Interfaces
+		std::map<PropertyID, EntityVTable*> m_EntityVTables;       // VTables for Entities
+		std::map<PropertyID, ArchetypeVTable*> m_ArchetypeVTables; // VTables for archetypes
+		std::map<PropertyID, InterfaceVTable*> m_InterfaceVtables; // VTables for Interfaces
 
 		std::map<EntityID, PropertyID> m_Entities; // all entities and their vtables
 

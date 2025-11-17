@@ -10,7 +10,7 @@ namespace bismuth
 	class ComponentPool
 	{
 	public:
-		ComponentPool(std::shared_ptr<ComponentVTable> component)
+		ComponentPool(ComponentVTable component)
 			: m_VTable(component)
 		{}
 
@@ -35,10 +35,10 @@ namespace bismuth
 		 */
 		void SetProperty(EntityID entity, PropertyID property, DataPointer newVal);
 
-		inline std::weak_ptr<ComponentVTable> GetVTable() const { return m_VTable; }
+		inline ComponentVTable GetVTable() const { return m_VTable; }
 
 	private:
-		std::shared_ptr<ComponentVTable> m_VTable;
+		ComponentVTable m_VTable;
 		std::vector<IData*> m_DataPool;
 		std::map<EntityID, size_t> m_EntityLocations;
 	};

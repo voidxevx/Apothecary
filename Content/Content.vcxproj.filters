@@ -17,5 +17,6 @@
   <ItemGroup>
     <None Include="Tonic\bisTest.bis" />
     <None Include="Tonic\Test.bis" />
+    <None Include="Tonic\temp.bis" />
   </ItemGroup>
 </Project>

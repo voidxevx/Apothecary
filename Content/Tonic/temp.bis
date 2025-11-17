@@ -1,0 +1,14 @@
+project temp
+
+component test
+{
+	uint32 val
+	bool another
+
+	function foo(uint32 in) -> void
+	{
+		
+	}
+}
+
+arch testArch with test;

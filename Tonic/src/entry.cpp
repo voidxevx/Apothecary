@@ -32,8 +32,9 @@ apothec::Application::Init()
 	TestLayer* layer = new TestLayer();
 	PushLayer(layer);
 
-	std::vector<bismuth::generation::Token> tokens = bismuth::generation::Tokenizer("../Content/Tonic/Test.bis").GetTokens();
+	new bismuth::state{};
 
+	bismuth::state::GetGlobal()->BuildFile("../Content/Tonic/temp.bis");
 }
 
 void TONIC_API
