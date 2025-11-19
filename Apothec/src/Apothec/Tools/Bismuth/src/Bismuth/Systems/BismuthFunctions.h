@@ -17,28 +17,39 @@ namespace bismuth
 		inline const std::vector<PropertyTemplate>& GetInputs() const { return m_Inputs; }
 
 	protected:
-		IFunction(DataTypes returnType, std::vector<PropertyTemplate> inputs)
+		IFunction(PropertyID returnType, std::vector<PropertyTemplate> inputs)
 			: m_Inputs(inputs)
+			, m_ReturnType(returnType)
 		{}
 
 	private:
 		std::vector<PropertyTemplate> m_Inputs;
+		PropertyID m_ReturnType;
 	};
 
 	class NativeFunction : public IFunction
 	{
 	public:
-		NativeFunction(DataTypes returnType, std::vector<PropertyTemplate> inputs, std::function<int()> func)
+		NativeFunction(PropertyID returnType, std::vector<PropertyTemplate> inputs, std::function<int()> func)
 			: IFunction(returnType, inputs)
 			, m_Lambda(func)
 		{}
 
-		inline virtual void Call() { m_Lambda(); }
+		inline virtual void Call() override final { m_Lambda(); }
 
 	private:
 		std::function<int()> m_Lambda;
 	};
 
-	// TODO: Local functions
+	class LocalFunction : public IFunction
+	{
+	public:
+		LocalFunction(PropertyID returnType, std::vector<PropertyTemplate> inputs /*byte code*/)
+			: IFunction(returnType, inputs)
+		{}
 
+		virtual void Call() override final {}
+
+	private:
+	};
 }

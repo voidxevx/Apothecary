@@ -117,17 +117,18 @@ namespace bismuth
 			 */
 			else if (c_token.Type == generation::TokenType::ComponentTag)
 			{
-				++index; // to identifier
-				c_token = tokens[index];
+				PUSHINDEX; // to identifier
 				assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token following component declaration, expected identifier.");
-				assert(m_ComponentPools.count(c_token.Value.value()) == 0 && "Component already defined. Try adding a header guard or check for components with the same name declared in included modules or loaded projects.");
 				const PropertyID id = c_token.Value.value();
+				assert(m_ComponentPools.count(id) == 0 && "Component already defined. Try adding a header guard or check for components with the same name declared in included modules or loaded projects.");
 
 				std::vector<PropertyTemplate> props;
 				std::vector<std::pair<PropertyID, IFunction*>> methods;
 
-				++index;
-				c_token = tokens[index];
+				PUSHINDEX; // to scope start
+				assert(c_token.Type == generation::TokenType::ScopeStart && "Unexpected token after component declaration, expected scope start");
+				PUSHINDEX; // to first token
+
 				while (c_token.Type != generation::TokenType::ScopeEnd)
 				{
 					
@@ -144,15 +145,12 @@ namespace bismuth
 					 * parse function
 					 */
 					else if (c_token.Type == generation::TokenType::FunctionTag)
-					{
-
-					}
+						methods.push_back(ParseFunction(tokens, index));
 
 					else
-						assert("Unexpected token found in component declaration");
+						assert(false && "Unexpected token found in component declaration");
 
-					++index;
-					c_token = tokens[index];
+					PUSHINDEX;
 				}
 
 				m_ComponentPools[id] = new ComponentPool( ComponentVTable{ methods, props } );
@@ -165,33 +163,39 @@ namespace bismuth
 			 */
 			else if (c_token.Type == generation::TokenType::ArchetypeTag)
 			{
-				++index; // to identifier
-				c_token = tokens[index];
+				PUSHINDEX;
 				assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token following archetype declaration, expected identifier");
 
 				PropertyID archID = c_token.Value.value();
+				assert(m_ArchetypeVTables.count(archID) == 0 && "Archetype already defined. Try adding a header guard or check for components with the same name declared in included modules or loaded projects.");
 
-				++index; // to inclusion
-				c_token = tokens[index];
-				assert(c_token.Type == generation::TokenType::ComponentInclusion && "Expected \"with\" token following archetype identifier");
+				PUSHINDEX; // to inclusion
+				assert(c_token.Type == generation::TokenType::ComponentInclusion && "Expected inclusion token (with) following archetype identifier");
 
 				std::vector<PropertyID> components;
 				std::map<PropertyID, IFunction*> methods;
 
-				++index;
-				c_token = tokens[index];
+				PUSHINDEX;
 				while (c_token.Type == generation::TokenType::Identifier)
 				{
 					assert(m_ComponentPools.count(c_token.Value.value()) > 0 && "Component included by archetype does not exist, check spelling or if the component you are trying to include is not properly added");
 					components.push_back(c_token.Value.value());
-					++index; 
-					c_token = tokens[index];
+					PUSHINDEX;
 				}
 
 				assert(c_token.Type == generation::TokenType::ScopeStart || c_token.Type == generation::TokenType::LineEnd && "Unexpected token following archetype signature, try adding a ; if the archetype has no methods otherwise add a scope {}.");
 				if (c_token.Type == generation::TokenType::ScopeStart)
 				{
-					// parse for functions
+					
+					PUSHINDEX;
+					while (c_token.Type != generation::TokenType::ScopeEnd)
+					{
+						assert(c_token.Type == generation::TokenType::FunctionTag);
+						std::pair<PropertyID, IFunction*> method = ParseFunction(tokens, index);
+						methods[method.first] = method.second;
+						PUSHINDEX;
+					}
+
 				}
 
 				m_ArchetypeVTables[archID] = new ArchetypeVTable(components, methods);
@@ -204,6 +208,78 @@ namespace bismuth
 			 */
 			else if (c_token.Type == generation::TokenType::InterfaceTag)
 			{
+				PUSHINDEX; 
+				assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token following interface tag, expected identifier.");
+				PropertyID id = c_token.Value.value();
+				assert(m_InterfaceVtables.count(id) == 0 && "Interface already defined. Try adding a header guard or check for interfaces with the same name declared in included modules or loaded projects.");
+
+				PUSHINDEX;
+				assert(c_token.Type == generation::TokenType::ComponentRequirement && "interfaces must be followed by a requirement tag before listing component.");
+				PUSHINDEX;
+
+				std::vector<PropertyID> components;
+
+				while (c_token.Type == generation::TokenType::Identifier)
+				{
+					components.push_back(c_token.Value.value());
+					// TODO: assert component or archetype exits
+					PUSHINDEX;
+				}
+
+				assert(components.size() >= 1 && "Interfaces must require at least one or more components or archetypes.");
+				assert(c_token.Type == generation::TokenType::ScopeStart && "unexpected token following interface signature, expected scope");
+				PUSHINDEX;
+
+				std::vector<FunctionImplementation> methods;
+
+				while (c_token.Type == generation::TokenType::FunctionTag)
+				{
+					PUSHINDEX; // to identifier
+					assert(c_token.Type == generation::TokenType::Identifier && "Unidentified token following interface function, expected identifier.");
+					PropertyID methodID = c_token.Value.value();
+					PUSHINDEX;
+					
+					std::vector<PropertyTemplate> inputs;
+
+					if (c_token.Type == generation::TokenType::ExpressionStart)
+					{
+						PUSHINDEX;
+
+						while (c_token.Type != generation::TokenType::ExpressionEnd)
+						{
+							assert(c_token.Type == generation::TokenType::Identifier && tokens[index + 1].Type == generation::TokenType::Identifier && "Unexpected token found in function input list");
+
+							inputs.push_back(PropertyTemplate{ c_token.Value.value(), tokens[index].Value.value() });
+
+							// TODO: add expression break syntax
+
+							++index;
+							PUSHINDEX;
+						}
+						PUSHINDEX;
+					}
+
+
+					PropertyID retType = generation::Tokenizer::GetHasher()("void");
+					if (c_token.Type == generation::TokenType::ReturnHint)
+					{
+						PUSHINDEX;
+						assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token as return hint, expected identifier");
+						retType = c_token.Value.value();
+
+						PUSHINDEX; // to end line
+					}
+
+					assert(c_token.Type == generation::TokenType::LineEnd && "Unexpected token following interface function signature, expected line end");
+					PUSHINDEX;
+
+					methods.push_back({ methodID, retType, inputs });
+				}
+
+				assert(methods.size() >= 1 && "Interfaces must have at least one function signature declared.");
+				assert(c_token.Type == generation::TokenType::ScopeEnd && "Unexpected token within interface, expected function tag or scope end");
+
+				m_InterfaceVtables[id] = new InterfaceVTable(components, methods);
 			}
 
 			/*
@@ -215,6 +291,11 @@ namespace bismuth
 			 */
 			else if (c_token.Type == generation::TokenType::SystemTag)
 			{
+				PUSHINDEX;
+				assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token following system tag, expected identifier");
+				const PropertyID id = c_token.Value.value();
+				assert(m_Systems.count(id) == 0 && "System already defined. Try adding a header guard or check for system with the same name declared in included modules or loaded projects.");
+
 
 			}
 
@@ -235,8 +316,12 @@ namespace bismuth
 			 */
 			else if (c_token.Type == generation::TokenType::FunctionTag)
 			{
-
+				std::pair<PropertyID, IFunction*> func = ParseFunction(tokens, index);
+				m_GlobalFunctions[func.first] = func.second;
 			}
+
+			else 
+				assert(false && "Unexpected floating token");
 
 
 			++index;
@@ -267,13 +352,33 @@ namespace bismuth
 				// TODO: add expression break syntax
 
 				++index;
-				PUSHINDEX;
+				PUSHINDEX; // last iteration -> onto expression end
 			}
 
 		}
 
-		PUSHINDEX;
+		PUSHINDEX; // to return hint
+		PropertyID retType = generation::Tokenizer::GetHasher()("void");
 
+		if (c_token.Type == generation::TokenType::ReturnHint)
+		{
+			PUSHINDEX;
+			assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token as return hint, expected identifier");
+			retType = c_token.Value.value();
+
+			PUSHINDEX; // to scope start
+		}
+
+		assert(c_token.Type == generation::TokenType::ScopeStart && "Unexpected token following function signature, expected scope");
+
+		while (c_token.Type != generation::TokenType::ScopeEnd)
+		{
+			PUSHINDEX;
+		}
+
+		// ends on scope end
+
+		return { id, new LocalFunction(retType, inputs) };
 
 	}
 

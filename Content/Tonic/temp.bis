@@ -1,14 +1,29 @@
 project temp
 
+-- test component --
 component test
 {
 	uint32 val
 	bool another
 
-	function foo(uint32 in) -> void
+}
+
+arch testable with test
+{
+	function foo
 	{
 		
 	}
 }
 
-arch testArch with test;
+interface ITest requires test
+{
+	function foo(uint32 in) -> void;
+	function another;
+	function temp -> uint32;
+}
+
+systen testSystem extends testable
+{
+	
+}
