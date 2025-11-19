@@ -31,19 +31,20 @@ namespace bismuth
 		virtual void OnUpdate(EntityID entity) const = 0;
 
 	protected:
-		ISystem(std::vector<PropertyID> components)
+		ISystem(std::vector<PropertyID> archetypes)
+			: m_Archetypes(archetypes)
 		{}
 
 	private:
-		std::shared_ptr<ArchetypeVTable> m_Archetype;
+		std::vector<PropertyID> m_Archetypes;
 		std::vector<EntityID> m_Entities;
 	};
 
 	class NativeSystem : public ISystem
 	{
 	public:
-		NativeSystem(std::vector<PropertyID> components, std::function<void(EntityID)> function)
-			: ISystem(components)
+		NativeSystem(std::vector<PropertyID> archetypes, std::function<void(EntityID)> function)
+			: ISystem(archetypes)
 			, m_Lambda(function)
 		{}
 
@@ -58,6 +59,14 @@ namespace bismuth
 		std::function<void(EntityID)> m_Lambda;
 	};
 
-	// TODO: Local Systems
+	class LocalSystem : public ISystem
+	{
+	public:
+		LocalSystem(std::vector<PropertyID> archetypes)
+			: ISystem(archetypes)
+		{}
+
+		virtual void OnUpdate(EntityID entity) const override final {}
+	};
 
 }

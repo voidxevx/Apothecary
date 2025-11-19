@@ -294,9 +294,35 @@ namespace bismuth
 				PUSHINDEX;
 				assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token following system tag, expected identifier");
 				const PropertyID id = c_token.Value.value();
-				assert(m_Systems.count(id) == 0 && "System already defined. Try adding a header guard or check for system with the same name declared in included modules or loaded projects.");
+				assert(m_Systems.count(id) == 0 && "System already defined. Try adding a header guard or check for systems with the same name declared in included modules or loaded projects.");
 
+				std::vector<PropertyID> archetypes;
 
+				PUSHINDEX;
+				if (c_token.Type == generation::TokenType::ArchetypeInclusion)
+				{
+					PUSHINDEX;
+
+					while (c_token.Type == generation::TokenType::Identifier)
+					{
+						const PropertyID archID = c_token.Value.value();
+						assert(m_ArchetypeVTables.count(archID) > 0 && "Archetype required by system does not exist. Make sure that the archetype you are attempting to require is properly included.");
+						archetypes.push_back(archID);
+						PUSHINDEX;
+					}
+
+				}
+
+				assert(c_token.Type == generation::TokenType::ScopeStart && "Unexpected token following system signature, expected scope.");
+				PUSHINDEX;
+				while (c_token.Type != generation::TokenType::ScopeEnd)
+				{
+					// TODO: parse bytecode
+
+					PUSHINDEX;
+				}
+
+				m_Systems[id] = new LocalSystem(archetypes);
 			}
 
 			/*
@@ -304,6 +330,8 @@ namespace bismuth
 			 * - Requires an identifier and at least one component or one archetype.
 			 * - Can optionally have a list of systems and interfaces.
 			 * - The entity can have multiple constructors as well as methods and implementations for interface functions.
+			 * 
+			 * - Compile time check that the entity includes the correct component for its attached systems and interfaces
 			 */
 			else if (c_token.Type == generation::TokenType::EntityTag)
 			{

@@ -10,7 +10,7 @@ component test
 
 arch testable with test
 {
-	function foo
+	function foo()
 	{
 		
 	}
@@ -23,7 +23,7 @@ interface ITest requires test
 	function temp -> uint32;
 }
 
-systen testSystem extends testable
+system testSystem extends testable
 {
 	
 }
