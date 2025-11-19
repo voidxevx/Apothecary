@@ -335,6 +335,129 @@ namespace bismuth
 			 */
 			else if (c_token.Type == generation::TokenType::EntityTag)
 			{
+				PUSHINDEX;
+				assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token following entity tag, expected identifier.");
+				const PropertyID id = c_token.Value.value();
+				assert(m_EntityVTables.count(id) == 0 && "Entity already defined. Try adding a header guard or check for entity with the same name declared in included modules or loaded projects.");
+				
+				std::vector<PropertyID> components;
+				std::vector<PropertyID> archetypes;
+
+				PUSHINDEX;
+				if (c_token.Type == generation::TokenType::ComponentInclusion)
+				{
+					PUSHINDEX;
+
+					while (c_token.Type == generation::TokenType::Identifier)
+					{
+						const PropertyID compID = c_token.Value.value();
+						assert(m_ComponentPools.count(compID) > 0 && "Component included by entity does not exist, make sure that the component is spelled correctly or correctly included.");
+						components.push_back(compID);
+						PUSHINDEX;
+					}
+
+				}
+
+				if (c_token.Type == generation::TokenType::ArchetypeInclusion)
+				{
+					PUSHINDEX;
+
+					while (c_token.Type == generation::TokenType::Identifier)
+					{
+						const PropertyID archID = c_token.Value.value();
+						assert(m_ArchetypeVTables.count(archID) > 0 && "Archetype included by entity does not exist, make sure that the archetype is spelled correctly or correctly included.");
+						archetypes.push_back(archID);
+						PUSHINDEX;
+					}
+				}
+
+				assert(components.size() > 0 || archetypes.size() > 0 && "Entities must include at least one component or archetype");
+
+				std::vector<PropertyID> systems;
+
+				if (c_token.Type == generation::TokenType::SystemAccess)
+				{
+					PUSHINDEX;
+
+					while (c_token.Type == generation::TokenType::Identifier)
+					{
+						const PropertyID sysID = c_token.Value.value();
+						assert(m_Systems.count(sysID) > 0 && "system included by entity does not exist, make sure that the system is spelled correctly or correctly included.");
+						systems.push_back(sysID);
+						PUSHINDEX;
+					}
+				}
+
+				std::vector<PropertyID> interfaces;
+
+				if (c_token.Type == generation::TokenType::InterfaceImplementation)
+				{
+					PUSHINDEX;
+
+					while (c_token.Type == generation::TokenType::Identifier)
+					{
+						const PropertyID interID = c_token.Value.value();
+						assert(m_InterfaceVtables.count(interID) > 0 && "interface included by entity does not exist, make sure that the interface is spelled correctly or correctly included.");
+						interfaces.push_back(interID);
+						PUSHINDEX;
+					}
+				}
+
+				assert(c_token.Type == generation::TokenType::ScopeStart && "Unexpected token following entity signature, expected scope.");
+
+				std::map<PropertyID, IFunction*> implementations;
+				std::vector<IFunction*> constructors;
+
+				PUSHINDEX; // to first token
+				while (c_token.Type != generation::TokenType::ScopeEnd)
+				{
+					if (c_token.Type == generation::TokenType::EntityConstruction)
+					{
+						PUSHINDEX;
+
+						std::vector<PropertyTemplate> inputs;
+
+						if (c_token.Type == generation::TokenType::ExpressionStart)
+						{
+							PUSHINDEX;
+							while (c_token.Type != generation::TokenType::ExpressionEnd)
+							{
+								assert(c_token.Type == generation::TokenType::Identifier && tokens[index + 1].Type == generation::TokenType::Identifier && "Unexpected token found in constructor input list");
+
+								inputs.push_back(PropertyTemplate{ c_token.Value.value(), tokens[index].Value.value() });
+
+								// TODO: add expression break syntax
+
+								++index;
+								PUSHINDEX; // last iteration -> onto expression end
+							}
+							PUSHINDEX;
+						}
+
+						assert(c_token.Type == generation::TokenType::ScopeStart && "Unexpected token following constructor signature, expected scope.");
+						PUSHINDEX;
+						while (c_token.Type != generation::TokenType::ScopeEnd)
+						{
+							// TODO: parse constructor
+							PUSHINDEX;
+						}
+
+						constructors.push_back(new LocalFunction(0, inputs));
+
+					}
+					else if (c_token.Type == generation::TokenType::InterfaceImplementation)
+					{
+						PUSHINDEX;
+
+						// TODO: parse interface function implementation.
+					}
+					else
+						assert(false && "Unexpected token found in entity declaration.");
+
+					PUSHINDEX;
+				}
+
+				m_EntityVTables[id] = new EntityVTable(components, archetypes, systems, interfaces, {/*interface impls*/ }, {/* constructors */});
 
 			}
 

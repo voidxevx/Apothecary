@@ -8,11 +8,16 @@ component test
 
 }
 
+component another
+{
+	Entity thing
+}
+
 arch testable with test
 {
 	function foo()
 	{
-		
+		return (1 + 1);
 	}
 }
 
@@ -26,4 +31,21 @@ interface ITest requires test
 system testSystem extends testable
 {
 	
+}
+
+entity entt 
+with another 
+extends testable
+using testSystem
+impl ITest
+{
+	construct(uint32 in)
+	{
+		
+	}
+
+	construct()
+	{
+		
+	}
 }

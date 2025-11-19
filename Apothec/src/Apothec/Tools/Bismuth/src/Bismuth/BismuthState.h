@@ -68,6 +68,8 @@ namespace bismuth
 		std::vector<std::string> m_BuildQueue;
 		std::thread m_BuildThread; // threads used to build code
 
+		// TODO: store input & output data
+
 		static state* s_Instance;
 	};
 

@@ -149,9 +149,13 @@
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponentPool.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponent.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\Interfaces\BismuthInterface.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\BismuthData.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\BismuthDataType.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Entities\BismuthEntity.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\BismuthToken.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Bytecode\ByteNode.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Bytecode\Nodes\BranchNodes.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Bytecode\Nodes\OperationNodes.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Tokenizer.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Systems\BismuthFunctions.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthState.h" />
