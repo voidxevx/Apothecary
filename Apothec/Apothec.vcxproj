@@ -171,6 +171,7 @@
     <ClCompile Include="src\Apothec\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponentPool.cpp" />
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthState.cpp" />
+    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\BismuthData.cpp" />
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\SmartCast.cpp" />
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Tokenizer.cpp" />
   </ItemGroup>

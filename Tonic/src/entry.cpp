@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-class TONIC_API TestLayer : public apothec::EventLayer
+class TestLayer : public apothec::EventLayer
 {
 public:
 	TestLayer()
@@ -33,6 +33,12 @@ apothec::Application::Init()
 	PushLayer(layer);
 
 	new bismuth::state{};
+	new bismuth::DataRegistry{};
+	new bismuth::IntDataType{};
+	new bismuth::StringDataType{};
+
+	bismuth::IDataInstance* myInt = bismuth::DataRegistry::Get()->NullDeclType(bismuth::DataRegistry::GetHashValue("int32"));
+
 
 	bismuth::state::GetGlobal()->BuildFile("../Content/Tonic/temp.bis");
 }

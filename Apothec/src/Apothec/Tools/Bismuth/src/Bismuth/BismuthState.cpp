@@ -508,6 +508,14 @@ namespace bismuth
 
 						// TODO: assert function existence and correct implementations
 
+						PUSHINDEX;
+						assert(c_token.Type == generation::TokenType::ScopeStart && "Unexpected token following interface function implementation signature, expected scope.");
+						PUSHINDEX;
+						while (c_token.Type != generation::TokenType::ScopeEnd)
+						{
+							PUSHINDEX;
+						}
+
 						implementations[funID] = new LocalFunction(retType, inputs);
 					}
 					else
