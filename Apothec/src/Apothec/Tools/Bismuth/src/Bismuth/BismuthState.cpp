@@ -4,6 +4,13 @@
 #include <ctime>
 #include <cassert>
 
+
+/*
+	TODO: 
+		- extra syntax.
+		- assert correct declarations of entities.
+*/
+
 namespace bismuth
 {
 
@@ -383,6 +390,7 @@ namespace bismuth
 					{
 						const PropertyID sysID = c_token.Value.value();
 						assert(m_Systems.count(sysID) > 0 && "system included by entity does not exist, make sure that the system is spelled correctly or correctly included.");
+						// TODO: check component requirements
 						systems.push_back(sysID);
 						PUSHINDEX;
 					}
@@ -398,6 +406,7 @@ namespace bismuth
 					{
 						const PropertyID interID = c_token.Value.value();
 						assert(m_InterfaceVtables.count(interID) > 0 && "interface included by entity does not exist, make sure that the interface is spelled correctly or correctly included.");
+						// TODO: Check interface requirements
 						interfaces.push_back(interID);
 						PUSHINDEX;
 					}
@@ -449,7 +458,57 @@ namespace bismuth
 					{
 						PUSHINDEX;
 
-						// TODO: parse interface function implementation.
+						assert(c_token.Type == generation::TokenType::FunctionTag && "unexpected token following interface implementation, expected function");
+						PUSHINDEX;
+						assert(c_token.Type == generation::TokenType::Identifier && "unexpected token following function tag, expected ");
+						const PropertyID funID = c_token.Value.value();
+
+						std::vector<PropertyTemplate> inputs;
+
+						PUSHINDEX;
+						if (c_token.Type == generation::TokenType::ExpressionStart)
+						{
+							PUSHINDEX;
+							while (c_token.Type != generation::TokenType::ExpressionEnd)
+							{
+								assert(c_token.Type == generation::TokenType::Identifier && tokens[index + 1].Type == generation::TokenType::Identifier && "Unexpected token found in function input list");
+
+								inputs.push_back(PropertyTemplate{ c_token.Value.value(), tokens[index].Value.value() });
+
+								// TODO: add expression break syntax
+
+								++index;
+								PUSHINDEX; // last iteration -> onto expression end
+							}
+
+						}
+
+						assert(c_token.Type == generation::TokenType::ExpressionEnd && "Unexpected token found in function inputs, expected expression end.");
+						PUSHINDEX;
+
+						PropertyID retType = generation::Tokenizer::GetHasher()("void");
+
+						if (c_token.Type == generation::TokenType::ReturnHint)
+						{
+							PUSHINDEX;
+							assert(c_token.Type == generation::TokenType::Identifier && "unexpected token following return hint, expected identifier");
+							retType = c_token.Value.value();
+							PUSHINDEX;
+						}
+
+						assert(c_token.Type == generation::TokenType::InterfaceLink && "Unexpected token following interface function implementation signature, expected interface link (from)");
+						PUSHINDEX;
+						assert(c_token.Type == generation::TokenType::Identifier && "Unexpected token found following interface link, expected identifier.");
+						const PropertyID intID = c_token.Value.value();
+						assert(m_InterfaceVtables.count(intID) > 0 && "interface included by function does not exist, make sure that the interface is spelled correctly or correctly included.");
+
+						const InterfaceVTable* const& intVTable = m_InterfaceVtables.at(intID);
+
+						const std::vector<FunctionImplementation>& functions = intVTable->GetMethods();
+
+						// TODO: assert function existence and correct implementations
+
+						implementations[funID] = new LocalFunction(retType, inputs);
 					}
 					else
 						assert(false && "Unexpected token found in entity declaration.");
@@ -457,7 +516,7 @@ namespace bismuth
 					PUSHINDEX;
 				}
 
-				m_EntityVTables[id] = new EntityVTable(components, archetypes, systems, interfaces, {/*interface impls*/ }, {/* constructors */});
+				m_EntityVTables[id] = new EntityVTable(components, archetypes, systems, interfaces, implementations, constructors);
 
 			}
 

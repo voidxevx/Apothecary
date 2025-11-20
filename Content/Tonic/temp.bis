@@ -48,4 +48,9 @@ impl ITest
 	{
 		
 	}
+
+	impl function foo(uitn32 in) -> void from ITest
+	{
+		
+	}
 }
