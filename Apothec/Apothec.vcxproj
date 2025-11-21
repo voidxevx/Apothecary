@@ -150,7 +150,6 @@
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponent.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\Interfaces\BismuthInterface.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\BismuthData.h" />
-    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\BismuthDataType.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Entities\BismuthEntity.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\BismuthToken.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Bytecode\ByteNode.h" />
@@ -172,7 +171,6 @@
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Components\BismuthComponentPool.cpp" />
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\BismuthState.cpp" />
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\BismuthData.cpp" />
-    <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Data\SmartCast.cpp" />
     <ClCompile Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,8 @@
 #include <map>
 #include <string>
 
+#include "types.h"
+
 namespace bismuth
 {
 	typedef unsigned long long TypeID;
@@ -209,9 +211,53 @@ namespace bismuth
 			else
 				return { new std::string(""), m_ID, true };
 		}
+
+		virtual inline IDataInstance*
+		NullDecl()
+		const override final
+		{
+			return new StringDataInstance{ m_ID, "" };
+		}
 	};
 
+	class EntityPtrDataInstance : public IDataInstance
+	{
+	public:
+		EntityPtrDataInstance(TypeID id, EntityID value)
+			: IDataInstance(id)
+			, data(value)
+		{}
 
+		DATAINSTANCEOVERRIDE(EntityID)
+
+	private:
+		EntityID data;
+	};
+
+	class EntityPtrDataType : public IDataType
+	{
+	public:
+		EntityPtrDataType()
+			: IDataType("Entity")
+		{}
+
+		virtual DataPtr
+		CastTo(const DataPtr& val)
+		const
+		{
+			if (val.Type == m_ID)
+				return val;
+			else
+				return { nullptr, 0 };
+		}
+
+		virtual inline IDataInstance*
+		NullDecl()
+		const override final
+		{
+			return new EntityPtrDataInstance(m_ID, 0);
+		}
+	};
 
 
 }

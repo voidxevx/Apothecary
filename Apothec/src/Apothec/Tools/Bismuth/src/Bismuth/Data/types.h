@@ -7,5 +7,11 @@ namespace bismuth
 
 	typedef size_t EntityID;
 	typedef size_t PropertyID;
+
+	struct PropertyTemplate
+	{
+		PropertyID ID;
+		PropertyID Type;
+	};
 	
 }

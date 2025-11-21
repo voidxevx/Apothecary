@@ -18,7 +18,7 @@ namespace bismuth
 	{
 		if (m_EntityLocations.count(entity) > 0) // assert entities existence.
 		{
-			EntityID lastEntity = m_DataPool[m_DataPool.size() - m_VTable.GetAlignment()]->GetAs<unsigned long long>();
+			EntityID lastEntity = *static_cast<const EntityID* const>(m_DataPool[m_DataPool.size() - m_VTable.GetAlignment()]->GetPointer().Data);
 			size_t entityLocation = m_EntityLocations[entity];
 			size_t lastEntityLocation = m_EntityLocations[lastEntity];
 
@@ -37,16 +37,18 @@ namespace bismuth
 		}
 	}
 
-	IData* const 
+	IDataInstance* const 
 	ComponentPool::GetProperty(EntityID entity, PropertyID property)
 	const
 	{
 		if (m_EntityLocations.count(entity) > 0)
 			return m_VTable.GetProperty(m_DataPool, m_EntityLocations.at(entity), property);
+		else
+			return nullptr;
 	}
 
 	void
-	ComponentPool::SetProperty(EntityID entity, PropertyID property, DataPointer newVal)
+	ComponentPool::SetProperty(EntityID entity, PropertyID property, DataPtr newVal)
 	{
 		if (m_EntityLocations.count(entity) > 0)
 			 m_VTable.SetProperty(m_DataPool, m_EntityLocations.at(entity), property, newVal);

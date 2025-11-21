@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../Data/BismuthDataType.h"
 #include <vector>
 #include <functional>
+
+#include "../Data/types.h"
 
 namespace bismuth
 {

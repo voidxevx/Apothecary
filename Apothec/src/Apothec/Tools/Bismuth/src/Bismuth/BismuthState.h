@@ -3,7 +3,6 @@
 #include "Data/types.h"
 #include "Components/BismuthComponent.h"
 #include "Components/BismuthComponentPool.h"
-#include "Data/BismuthDataType.h"
 #include "Systems/BismuthFunctions.h"
 #include "Systems/BismuthSystem.h"
 #include "Entities/BismuthEntity.h"
@@ -54,7 +53,7 @@ namespace bismuth
 		EntityID CreateUniqueEntityID() const;
 
 		std::vector<PropertyID> m_Projects;                                    // stores project names to prevent duplicate definitions
-		std::map<PropertyID, ComponentPool*> m_ComponentPools; // stores data pools for every component
+		std::map<PropertyID, ComponentPool*> m_ComponentPools;                 // stores data pools for every component
 		std::map<PropertyID, ISystem*> m_Systems;                              // all systems
 		std::map<PropertyID, IFunction*> m_GlobalFunctions;                    // globally accessible functions
 

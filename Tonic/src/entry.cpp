@@ -36,9 +36,11 @@ apothec::Application::Init()
 	new bismuth::DataRegistry{};
 	new bismuth::IntDataType{};
 	new bismuth::StringDataType{};
+	new bismuth::EntityPtrDataType{};
 
 	bismuth::IDataInstance* myInt = bismuth::DataRegistry::Get()->NullDeclType(bismuth::DataRegistry::GetHashValue("int32"));
-
+	myInt->SetValue(bismuth::DataPtr{new int{12}, bismuth::DataRegistry::GetHashValue("int32"), true});
+	std::cout << *static_cast<const std::string* const>(bismuth::DataRegistry::Get()->SmartCast(myInt->GetPointer(), bismuth::DataRegistry::GetHashValue("str")).Data);
 
 	bismuth::state::GetGlobal()->BuildFile("../Content/Tonic/temp.bis");
 }

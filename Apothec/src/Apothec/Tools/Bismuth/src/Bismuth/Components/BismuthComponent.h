@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../Data/types.h"
-#include "../Data/BismuthDataType.h"
 #include "../Systems/BismuthFunctions.h"
+#include "../Data/BismuthData.h"
 
 #include <string>
 #include <map>
@@ -32,28 +31,28 @@ namespace bismuth
 		}
 
 		void 
-		Construct(std::vector<IData*>& pool, EntityID entity)
+		Construct(std::vector<IDataInstance*>& pool, EntityID entity)
 		{
-			pool.push_back(new BismuthData<unsigned long long>(entity)); // push a pointer to the entity
+			pool.push_back(new EntityPtrDataInstance(DataRegistry::GetHashValue("Entity"), entity)); // push a pointer to the entity
 			for (const auto& prop : m_Properties)
 			{
-				pool.push_back(NullDeclData(prop));
+				pool.push_back(DataRegistry::Get()->NullDeclType(prop));
 			}
 		}
 
 		const size_t GetAlignment() const { return m_Alignment; }
 
-		inline IData* const 
-		GetProperty(const std::vector<IData*>& pool, size_t componentPtr, PropertyID id)
+		inline IDataInstance* const 
+		GetProperty(const std::vector<IDataInstance*>& pool, size_t componentPtr, PropertyID id)
 		const
 		{
 			return pool[componentPtr + m_PropertyOffsets.at(id)];
 		}
 
 		inline void
-		SetProperty(std::vector<IData*>& pool, size_t componentPtr, PropertyID id, DataPointer newVal)
+		SetProperty(std::vector<IDataInstance*>& pool, size_t componentPtr, PropertyID id, DataPtr newVal)
 		{
-			pool[componentPtr + m_PropertyOffsets[id]]->Set(newVal);
+			pool[componentPtr + m_PropertyOffsets[id]]->SetValue(newVal);
 		}
 
 		inline IFunction* GetMethod(PropertyID id) const { return m_Methods.at(id); }
@@ -61,7 +60,7 @@ namespace bismuth
 	private:
 		std::map<PropertyID, size_t> m_PropertyOffsets;
 		std::map<PropertyID, IFunction*> m_Methods;
-		std::vector<DataTypes> m_Properties;
+		std::vector<TypeID> m_Properties;
 		size_t m_Alignment;
 	};
 

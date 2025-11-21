@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BismuthComponent.h"
+#include "../Data/BismuthData.h"
 
 #include <memory>
 
@@ -28,18 +29,18 @@ namespace bismuth
 		/*
 		 * Accesses a specific piece of data tied to an entity id.
 		 */
-		IData* const GetProperty(EntityID entity, PropertyID property) const;
+		IDataInstance* const GetProperty(EntityID entity, PropertyID property) const;
 
 		/*
 		 * Changes the value of a property. 
 		 */
-		void SetProperty(EntityID entity, PropertyID property, DataPointer newVal);
+		void SetProperty(EntityID entity, PropertyID property, DataPtr newVal);
 
 		inline ComponentVTable GetVTable() const { return m_VTable; }
 
 	private:
 		ComponentVTable m_VTable;
-		std::vector<IData*> m_DataPool;
+		std::vector<IDataInstance*> m_DataPool;
 		std::map<EntityID, size_t> m_EntityLocations;
 	};
 
