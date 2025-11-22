@@ -20,6 +20,8 @@ namespace bismuth
 	{
 		srand((unsigned int)time(0));
 		s_Instance = this;
+
+		m_IOStream = std::make_shared<DataIO>();
 	}
 
 	state::~state()

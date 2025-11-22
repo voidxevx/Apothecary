@@ -7,6 +7,7 @@
 #include "Systems/BismuthSystem.h"
 #include "Entities/BismuthEntity.h"
 #include "Generation/Tokenizer.h"
+#include "Data/DataIOStream.h"
 
 #include <thread>
 
@@ -64,10 +65,10 @@ namespace bismuth
 		std::map<EntityID, PropertyID> m_Entities; // all entities and their vtables
 
 		std::thread m_MainThread;  // thread used to run code
-		std::vector<std::string> m_BuildQueue;
+		std::vector<std::string> m_BuildQueue; // files to build
 		std::thread m_BuildThread; // threads used to build code
 
-		// TODO: store input & output data
+		std::shared_ptr<DataIO> m_IOStream; // iostream for data
 
 		static state* s_Instance;
 	};

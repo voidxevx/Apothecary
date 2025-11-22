@@ -15,7 +15,7 @@ namespace bismuth
 	 */
 	struct DataPtr
 	{
-		const void* const Data;
+		const void* Data;
 		TypeID Type;
 		bool autoDealloc;
 
@@ -29,6 +29,16 @@ namespace bismuth
 		{
 			if (autoDealloc)
 				delete Data;
+		}
+
+		void
+		operator=(const DataPtr& other)
+		{
+			if (autoDealloc)
+				delete Data;
+			Data = other.Data;
+			Type = other.Type;
+			autoDealloc = other.autoDealloc;
 		}
 	};
 
