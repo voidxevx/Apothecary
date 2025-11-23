@@ -3,44 +3,14 @@
 
 #include <iostream>
 
-class TestLayer : public apothec::EventLayer
-{
-public:
-	TestLayer()
-	{
-
-	}
-
-	virtual ~TestLayer()
-	{
-
-	}
-
-	virtual void OnAttach() override
-	{
-	}
-
-	virtual void OnDetach() override
-	{
-	}
-
-};
-
 void TONIC_API
 apothec::Application::Init()
 {
-	TestLayer* layer = new TestLayer();
-	PushLayer(layer);
-
 	new bismuth::state{};
 	new bismuth::DataRegistry{};
 	new bismuth::IntDataType{};
 	new bismuth::StringDataType{};
 	new bismuth::EntityPtrDataType{};
-
-	bismuth::IDataInstance* myInt = bismuth::DataRegistry::Get()->NullDeclType(bismuth::DataRegistry::GetHashValue("int32"));
-	myInt->SetValue(bismuth::DataPtr{new int{12}, bismuth::DataRegistry::GetHashValue("int32"), true});
-	std::cout << *static_cast<const std::string* const>(bismuth::DataRegistry::Get()->SmartCast(myInt->GetPointer(), bismuth::DataRegistry::GetHashValue("str")).Data);
 
 	bismuth::state::GetGlobal()->BuildFile("../Content/Tonic/temp.bis");
 }

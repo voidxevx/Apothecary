@@ -15,9 +15,25 @@ component another
 
 arch testable with test
 {
-	function foo()
+	function foo(uint32 A uint32 B)
 	{
-		return (1 + 1);
+		return A + B
+
+		--
+		ByteCode:
+
+		PushScope        ; Push the scope for the function
+		CreateVariable B ; store the last input as a variable named B
+		CreateVariable A ; store the next input as a variable named A
+
+		PushVariable A   ; push the value of A into the output
+		PushVariable B   ; push the value of B into the output
+		FlipIO           ; Flip the values of A and B into the input
+		OperatorAdd      ; Add the values of A and B and push the result ino output
+
+		FlipIO           ; Flip the result of the addition into the input before returning
+		PopScope         ; pop the scope nullifying variables A and B
+		--
 	}
 }
 

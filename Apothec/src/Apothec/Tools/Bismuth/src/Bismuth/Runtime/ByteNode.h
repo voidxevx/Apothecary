@@ -17,27 +17,20 @@ namespace bismuth::runtime
 		 * Execute automatically calls the functionality of the node and then calls the next node.
 		 */
 		void
-		Execute()
+		Execute(DataIO& stream)
 		{
-			Operation();
-			Next();
+			Operation(stream);
+			Next(stream);
 		}
 
 		/*
 		 * The functionality of the node.
 		 */
-		virtual void Operation() = 0;
+		virtual void Operation(DataIO& stream) = 0;
 		/*
 		 * Call the next node in the sequence. 
 		 */
-		virtual void Next() = 0;
-
-	protected:
-		INode(std::shared_ptr<DataIO> stream)
-			: m_IOStream(stream)
-		{}
-
-		std::shared_ptr<DataIO> m_IOStream;
+		virtual void Next(DataIO& stream) = 0;
 	};
 
 
@@ -53,17 +46,16 @@ namespace bismuth::runtime
 		 * Calls execute for the next node 
 		 */
 		virtual void 
-		Next() 
+		Next(DataIO& stream) 
 		override final
 		{
 			if (m_Next)
-				m_Next->Execute();
+				m_Next->Execute(stream);
 		}
 
 	protected:
-		INode_Operation(std::shared_ptr<DataIO> stream, INode* const next)
-			: INode(stream)
-			, m_Next(next)
+		INode_Operation(INode* const next)
+			: m_Next(next)
 		{}
 
 	private:
@@ -81,19 +73,18 @@ namespace bismuth::runtime
 		 *  executes the alternate node if condition is true
 		 */
 		virtual void 
-		Next() 
+		Next(DataIO& stream) 
 		override final
 		{
 			if (condition)
-				m_AlternateNode->Execute();
+				m_AlternateNode->Execute(stream);
 			else
-				m_DefaultNode->Execute();
+				m_DefaultNode->Execute(stream);
 		}
 
 	protected:
-		INode_Branch(std::shared_ptr<DataIO> stream, INode* const _default, INode* const alt)
-			: INode(stream)
-			, m_DefaultNode(_default)
+		INode_Branch(INode* const _default, INode* const alt)
+			: m_DefaultNode(_default)
 			, m_AlternateNode(alt)
 		{}
 

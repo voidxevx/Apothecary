@@ -17,28 +17,17 @@ namespace bismuth
 	{
 		const void* Data;
 		TypeID Type;
-		bool autoDealloc;
 
-		DataPtr(const void* const value, TypeID type, bool dealloc = false)
+		DataPtr(const void* const value, TypeID type)
 			: Data(value)
 			, Type(type)
-			, autoDealloc(dealloc)
 		{}
-
-		~DataPtr()
-		{
-			if (autoDealloc)
-				delete Data;
-		}
 
 		void
 		operator=(const DataPtr& other)
 		{
-			if (autoDealloc)
-				delete Data;
 			Data = other.Data;
 			Type = other.Type;
-			autoDealloc = other.autoDealloc;
 		}
 	};
 
@@ -48,18 +37,27 @@ namespace bismuth
 	class IDataInstance
 	{
 	public:
-		virtual ~IDataInstance() = default;
+		virtual ~IDataInstance()
+		{
+			delete m_Ptr->Data;
+			m_Ptr->Data = nullptr;
+			delete m_Ptr;
+			m_Ptr = nullptr;
+		}
 
-		virtual const DataPtr GetPointer() const = 0;
+		inline const DataPtr GetPointer() const { return *m_Ptr; }
 		virtual void SetValue(const DataPtr&) = 0;
 
 	protected:
-		IDataInstance(TypeID id)
+		template<typename _T>
+		IDataInstance(TypeID id, _T val)
 			: m_ID(id)
 		{
+			m_Ptr = new DataPtr{ &val, id };
 		}
 
 		TypeID m_ID;
+		DataPtr* m_Ptr;
 	};
 
 
@@ -130,16 +128,15 @@ namespace bismuth
 
 
 
-	#define DATAINSTANCEOVERRIDE(t) virtual const DataPtr GetPointer() const override final { return DataPtr{ &data, m_ID }; }\
-								 virtual void SetValue(const DataPtr& ptr) override final { if (ptr.Type == m_ID) data = *static_cast<const t*>(ptr.Data); }
+	#define DATAINSTANCEOVERRIDE(t) virtual void SetValue(const DataPtr& ptr) override final { if (ptr.Type == m_ID) data = *static_cast<const t*>(ptr.Data); }
 
 
 	class IntDataInstance : public IDataInstance
 	{
 	public:
 		IntDataInstance(TypeID id, int value)
-			: IDataInstance(id)
-			, data(value)
+			: data(value)
+			, IDataInstance(id, data)
 		{}
 
 		DATAINSTANCEOVERRIDE(int)
@@ -167,11 +164,11 @@ namespace bismuth
 				try
 				{
 					int t_val = std::stoi(*static_cast<const std::string*>(val.Data));
-					return { &t_val, m_ID, true };
+					return { &t_val, m_ID };
 				}
 				catch (...)
 				{
-					return { new int{0}, m_ID, true };
+					return { new int{0}, m_ID };
 				}
 
 			}
@@ -193,8 +190,8 @@ namespace bismuth
 	{
 	public:
 		StringDataInstance(TypeID id, std::string value)
-			: IDataInstance(id)
-			, data(value)
+			: data(value)
+			, IDataInstance(id, value)
 		{}
 
 		DATAINSTANCEOVERRIDE(std::string)
@@ -217,9 +214,9 @@ namespace bismuth
 			if (val.Type == DataRegistry::GetHashValue("str"))
 				return val;
 			else if (val.Type == DataRegistry::GetHashValue("int32"))
-				return { new std::string(std::to_string(*static_cast<const int* const>(val.Data))), m_ID, true };
+				return { new std::string(std::to_string(*static_cast<const int* const>(val.Data))), m_ID };
 			else
-				return { new std::string(""), m_ID, true };
+				return { new std::string(""), m_ID };
 		}
 
 		virtual inline IDataInstance*
@@ -234,8 +231,8 @@ namespace bismuth
 	{
 	public:
 		EntityPtrDataInstance(TypeID id, EntityID value)
-			: IDataInstance(id)
-			, data(value)
+			: data(value)
+			, IDataInstance(id, data)
 		{}
 
 		DATAINSTANCEOVERRIDE(EntityID)

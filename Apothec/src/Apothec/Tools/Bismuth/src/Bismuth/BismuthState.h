@@ -33,6 +33,9 @@ namespace bismuth
 		inline void RegisterArchetype(PropertyID id, ArchetypeVTable* archetype) { m_ArchetypeVTables[id] = archetype; }
 		inline void RegisterInterface(PropertyID id, InterfaceVTable* interface) { m_InterfaceVtables[id] = interface; }
 
+		/* vtable lookups ----- */
+		inline ComponentPool* const GetComponentPool(PropertyID pool) { return m_ComponentPools[pool]; }
+
 		/* Threads ----- */
 		inline void FinishBuild() { if (m_BuildThread.joinable()) m_BuildThread.join(); }
 		inline void FinishMain() { if (m_MainThread.joinable()) m_MainThread.join(); }
@@ -67,8 +70,6 @@ namespace bismuth
 		std::thread m_MainThread;  // thread used to run code
 		std::vector<std::string> m_BuildQueue; // files to build
 		std::thread m_BuildThread; // threads used to build code
-
-		std::shared_ptr<DataIO> m_IOStream; // iostream for data
 
 		static state* s_Instance;
 	};
