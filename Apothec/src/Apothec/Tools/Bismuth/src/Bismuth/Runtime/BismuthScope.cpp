@@ -49,7 +49,7 @@ namespace bismuth::runtime
 	void
 	Scope::PushScope(Scope*& scopePointer, bool downAccess, EntityID _this)
 	{
-		Scope* next = new Scope((_this == 0) ? m_ScopeThis : _this, this, downAccess);
+		Scope* next = new Scope((_this == 0) ? m_ScopeThis : _this, this, downAccess, m_IOStream);
 		scopePointer = next;
 	}
 

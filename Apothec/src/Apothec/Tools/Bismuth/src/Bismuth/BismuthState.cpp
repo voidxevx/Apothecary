@@ -20,6 +20,8 @@ namespace bismuth
 	{
 		srand((unsigned int)time(0));
 		s_Instance = this;
+
+		m_IOStream = std::make_shared<DataIO>();
 	}
 
 	state::~state()
@@ -599,5 +601,45 @@ namespace bismuth
 		return { id, new LocalFunction(retType, inputs) };
 
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
+		Byte code generation ---------------------
+	*/
+	#include "runtime/nodes/InstructionNodes.h"
+
+	runtime::INode*
+	state::GenerateByteCode(std::vector<generation::Token> tokens)
+	{
+		using namespace runtime;
+
+		size_t index = 0;
+		nodes::Node_Start* const start = new nodes::Node_Start();
+		INode* current = start;
+
+		while (index < tokens.size())
+		{
+			generation::Token c_token = tokens[index];
+
+			++index;
+		}
+
+		current->SetNext(new nodes::Node_End());
+		return start;
+	}
+
+
+
 
 }

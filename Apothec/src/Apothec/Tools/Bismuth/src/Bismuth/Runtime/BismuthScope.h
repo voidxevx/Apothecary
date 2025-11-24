@@ -2,16 +2,19 @@
 
 #include "../Data/DataIOStream.h"
 
+#include <memory>
+
 namespace bismuth::runtime
 {
 
 	class Scope
 	{
 	public:
-		Scope(EntityID _this, Scope* last, bool downAccess)
+		Scope(EntityID _this, Scope* last, bool downAccess, std::shared_ptr<DataIO> stream)
 			: m_ScopeThis(_this)
 			, m_Last(last)
 			, m_DownAccess(downAccess)
+			, m_IOStream(stream)
 		{
 			m_TemporaryData = (const void**)malloc(BISMUTH_STREAM_SIZE * sizeof(const void*));
 		}
@@ -47,11 +50,16 @@ namespace bismuth::runtime
 		 */
 		void PushScope(Scope*& scopePointer, bool downAccess, EntityID _this = 0);
 
+		inline std::shared_ptr<DataIO> GetIO() const { return m_IOStream; }
+		inline EntityID GetThis() const { return m_ScopeThis; }
+
 	private:
 		std::map<PropertyID, IDataInstance*> m_ScopeVariable; // maps variable ids to their data instances.
 		const void** m_TemporaryData;                         // pointers to temporary data allocated in this scope that needs to be deleted (garbage collection)
 		size_t m_TemporaryDataCount = 0;                      // the amount of temporary data created. used for iteration.
 		EntityID m_ScopeThis;                                 // the 'this' entity of the scope.
+
+		std::shared_ptr<DataIO> m_IOStream;                   // input/output stream
 
 		Scope* m_Last;                                        // the next scope below this scope.
 		bool m_DownAccess;                                    // if the scope has access to the values created in previous scopes.

@@ -17,22 +17,23 @@ arch testable with test
 {
 	function foo(uint32 A uint32 B)
 	{
-		return A + B
+		return A + B;
 
 		--
 		ByteCode:
 
-		PushScope        ; Push the scope for the function
-		CreateVariable B ; store the last input as a variable named B
-		CreateVariable A ; store the next input as a variable named A
+		; function initialization
+		PushScope - downAccess: false, this: load
+		CreateVariable - ID: B
+		CreateVariable - ID: A
 
-		PushVariable A   ; push the value of A into the output
-		PushVariable B   ; push the value of B into the output
-		FlipIO           ; Flip the values of A and B into the input
-		OperatorAdd      ; Add the values of A and B and push the result ino output
+		; return A + B
+		GetVariable - ID: A
+		GetVariable - ID: B
+		OperationAdd - type: uint32
 
-		FlipIO           ; Flip the result of the addition into the input before returning
-		PopScope         ; pop the scope nullifying variables A and B
+		PopScope
+		; function destruction
 		--
 	}
 }

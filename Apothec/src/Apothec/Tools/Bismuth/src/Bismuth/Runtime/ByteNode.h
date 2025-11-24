@@ -1,7 +1,13 @@
+/*
+	Nodes are essentially bytecode instructions stored as objects.
+	The nodes are interpreted in sequence dictated by the linked list structure that they create.
+	There are two different types of linkage: Operational -> continue to the next node after completing an operation.
+										  and Branching -> select a different node depending on a condition.
+*/
+
 #pragma once
 
-#include <memory>
-#include "../Data/DataIOStream.h"
+#include "BismuthScope.h"
 
 namespace bismuth::runtime
 {
@@ -17,7 +23,7 @@ namespace bismuth::runtime
 		 * Execute automatically calls the functionality of the node and then calls the next node.
 		 */
 		void
-		Execute(DataIO& stream)
+		Execute(Scope*& stream)
 		{
 			Operation(stream);
 			Next(stream);
@@ -26,19 +32,29 @@ namespace bismuth::runtime
 		/*
 		 * The functionality of the node.
 		 */
-		virtual void Operation(DataIO& stream) = 0;
+		virtual void Operation(Scope*& stream) = 0;
 		/*
 		 * Call the next node in the sequence. 
 		 */
-		virtual void Next(DataIO& stream) = 0;
+		virtual void Next(Scope*& stream) = 0;
+
+		/*
+		 * Interface to change set the next node 
+		 */
+		virtual void SetNext(INode* next) = 0;
+
+		/*
+		 * Interface to change the alternate next node (for branch nodes only) 
+		 */
+		virtual void SetAlternate(INode* next) = 0;
 	};
 
 
 
 	/*
-	 * Operation nodes do one operation then immediately go to the next node. 
+	 * Instruction nodes do one operation then immediately go to the next node. 
 	 */
-	class INode_Operation : public INode
+	class INode_Instruction : public INode
 	{
 	public:
 
@@ -46,20 +62,18 @@ namespace bismuth::runtime
 		 * Calls execute for the next node 
 		 */
 		virtual void 
-		Next(DataIO& stream) 
+		Next(Scope*& stream) 
 		override final
 		{
 			if (m_Next)
 				m_Next->Execute(stream);
 		}
 
-	protected:
-		INode_Operation(INode* const next)
-			: m_Next(next)
-		{}
+		virtual void SetNext(INode* next) override final { m_Next = next; }
+		virtual void SetAlternate(INode*) override final {}
 
 	private:
-		INode* const m_Next;
+		INode* m_Next = nullptr;
 	};
 
 	/*
@@ -73,7 +87,7 @@ namespace bismuth::runtime
 		 *  executes the alternate node if condition is true
 		 */
 		virtual void 
-		Next(DataIO& stream) 
+		Next(Scope*& stream) 
 		override final
 		{
 			if (condition)
@@ -81,6 +95,9 @@ namespace bismuth::runtime
 			else
 				m_DefaultNode->Execute(stream);
 		}
+
+		virtual void SetNext(INode* next) override final { m_DefaultNode = next; }
+		virtual void SetAlternate(INode* alt) override final { m_AlternateNode = alt; }
 
 	protected:
 		INode_Branch(INode* const _default, INode* const alt)
@@ -90,8 +107,8 @@ namespace bismuth::runtime
 
 	private:
 		bool condition = false;
-		INode* const m_DefaultNode;
-		INode* const m_AlternateNode;
+		INode* m_DefaultNode = nullptr;
+		INode* m_AlternateNode = nullptr;
 	};
 
 }
