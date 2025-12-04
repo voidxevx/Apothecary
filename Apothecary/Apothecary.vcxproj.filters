@@ -21,6 +21,12 @@
     <ClCompile Include="src\Apothecary\Lithium\Platform_APIs\OpenGL\OpenGL_Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_ArrayBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_IndexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Apothecary\Core.h">
@@ -48,6 +54,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Apothecary\Lithium\Events\LithiumEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\ArrayBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_ArrayBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\IndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_IndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\Platforms\RenderPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

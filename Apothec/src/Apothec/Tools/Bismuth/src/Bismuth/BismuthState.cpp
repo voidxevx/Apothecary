@@ -4,6 +4,8 @@
 #include <ctime>
 #include <cassert>
 
+#include "Runtime/nodes/InstructionNodes.h"
+
 
 /*
 	TODO: 
@@ -607,39 +609,67 @@ namespace bismuth
 
 
 
-
-
-
-
-
-
-
-	/*
-		Byte code generation ---------------------
-	*/
-	#include "runtime/nodes/InstructionNodes.h"
-
-	runtime::INode*
-	state::GenerateByteCode(std::vector<generation::Token> tokens)
+	runtime::INode* state::GenerateByteCode(generation::Tokenizer tokenizer)
 	{
+		using namespace runtime::nodes;
 		using namespace runtime;
-
-		size_t index = 0;
-		nodes::Node_Start* const start = new nodes::Node_Start();
+		INode* const start = new Node_Start{};
 		INode* current = start;
 
+		const std::vector<generation::Token>& tokens = tokenizer.GetTokens();
+
+		size_t index{};
 		while (index < tokens.size())
 		{
 			generation::Token c_token = tokens[index];
 
+			/*
+			 * Followed by another identifier: variable declaration
+			 *  - type name = expression
+			 * Followed by expression: function call
+			 *  - name(expression)
+			 * Followed by assignment: variable value change
+			 *  - name = expression
+			 * Followed by property: property access or change
+			 */
+			if (c_token.Type == generation::TokenType::Identifier)
+			{
+				const PropertyID id = c_token.Value.value();
+
+				PUSHINDEX;
+				/* variable declaration */
+				if (c_token.Type == generation::TokenType::Identifier)
+				{
+					const PropertyID variableName = c_token.Value.value();
+					PUSHINDEX;
+
+					Node_CreateVariable* const node = new Node_CreateVariable(variableName);
+
+					current->SetNext(node);
+					current = node;
+
+				}
+
+				/* function call */
+				else if (c_token.Type == generation::TokenType::ExpressionStart)
+				{
+
+				}
+
+				/* variable value change */
+				else if (c_token.Type == generation::TokenType::Assignment)
+				{
+
+				}
+
+				else assert(false && "unexpected token");
+
+			}
+
 			++index;
 		}
 
-		current->SetNext(new nodes::Node_End());
 		return start;
 	}
-
-
-
 
 }

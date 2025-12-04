@@ -46,7 +46,7 @@ namespace bismuth
 		void BuildFile(const std::string& filePath);
 		void BuildTokens(generation::Tokenizer& tokens);
 		std::pair<PropertyID, IFunction*> ParseFunction(const std::vector<generation::Token>& tokens, size_t& index);
-		runtime::INode* GenerateByteCode(std::vector<generation::Token> tokens);
+		runtime::INode* GenerateByteCode(generation::Tokenizer tokenizer);
 		
 		/* Code Running ----- */
 		// RunByteCode()

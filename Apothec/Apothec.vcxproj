@@ -154,6 +154,7 @@
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Entities\BismuthEntity.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\BismuthToken.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Generation\Tokenizer.h" />
+    <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\packages\BismuthDefaultPackage.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Runtime\BismuthScope.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Runtime\ByteNode.h" />
     <ClInclude Include="src\Apothec\Tools\Bismuth\src\Bismuth\Runtime\nodes\InstructionNodes.h" />

@@ -110,6 +110,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_ArrayBuffer.cpp" />
+    <ClCompile Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_IndexBuffer.cpp" />
     <ClCompile Include="src\Apothecary\Lithium\Platform_APIs\OpenGL\OpenGL_Window.cpp" />
     <ClCompile Include="src\Apothecary\main.cpp" />
   </ItemGroup>
@@ -121,6 +123,11 @@
     <ClInclude Include="src\Apothecary\Lithium\Events\LithiumEvents.h" />
     <ClInclude Include="src\Apothecary\Lithium\Events\MouseEvent.h" />
     <ClInclude Include="src\Apothecary\Lithium\Events\WindowEvent.h" />
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\ArrayBuffer.h" />
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\IndexBuffer.h" />
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_ArrayBuffer.h" />
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\Platforms\opengl\OpenGL_IndexBuffer.h" />
+    <ClInclude Include="src\Apothecary\Lithium\MeshData\Platforms\RenderPlatform.h" />
     <ClInclude Include="src\Apothecary\Lithium\Platform_APIs\OpenGL\OpenGL_Window.h" />
     <ClInclude Include="src\Apothecary\Lithium\Window.h" />
   </ItemGroup>

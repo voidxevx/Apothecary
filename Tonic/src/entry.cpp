@@ -8,17 +8,12 @@ apothec::Application::Init()
 {
 	new bismuth::state{};
 	new bismuth::DataRegistry{};
+
 	new bismuth::IntDataType{};
 	new bismuth::StringDataType{};
 	new bismuth::EntityPtrDataType{};
 
-	//bismuth::state::GetGlobal()->BuildFile("../Content/Tonic/temp.bis");
-
-	const std::string src = R"(
-	)";
-
-	bismuth::runtime::INode* nodes = bismuth::state::GetGlobal()->GenerateByteCode(bismuth::generation::Tokenizer(src).GetTokens());
-
+	bismuth::runtime::INode* nodes = bismuth::state::GetGlobal()->GenerateByteCode(bismuth::generation::Tokenizer("../Content/Tonic/temp.bis"));
 }
 
 void TONIC_API
